@@ -53,7 +53,7 @@ public class Card implements Comparable<Card>{
     public int compareTo(Card card) {
         if (getYanivValue() > card.getYanivValue()){
             return -1;
-        } else if (getYanivValue() < getYanivValue()){
+        } else if (getYanivValue() < card.getYanivValue()){
             return 1;
         }
         return 0;

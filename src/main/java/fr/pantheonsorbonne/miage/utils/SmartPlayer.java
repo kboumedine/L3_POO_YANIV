@@ -9,6 +9,7 @@ import fr.pantheonsorbonne.miage.utils.combinations.Pair;
 import fr.pantheonsorbonne.miage.utils.combinations.ThreeOfAKind;
 import fr.pantheonsorbonne.miage.utils.combinations.FourOfAKind;
 
+
 public class SmartPlayer extends Player{
 
     public SmartPlayer(String name) {
@@ -36,7 +37,6 @@ public class SmartPlayer extends Player{
         
         Deque<Card> discardedCards = new ArrayDeque<Card>();
 
-
         if(HandleCombination.hasFourOfAKind(hand)){
             Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);
             discardedCards.addAll(fourOfAKind);
@@ -47,7 +47,6 @@ public class SmartPlayer extends Player{
             Deque<Card> pair = Pair.getHighestPair(hand);
             discardedCards.addAll(pair);
         }else{
-
             discardedCards.add(hand.poll());
         }
 
@@ -55,12 +54,14 @@ public class SmartPlayer extends Player{
         return discardedCards;
     }
 
+    
 
     @Override
     public void discard(DiscardPile discardPile) {
         // TODO Auto-generated method stub
         super.discard(discardPile);
     }
+
   
     
 }

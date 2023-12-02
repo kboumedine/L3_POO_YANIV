@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.PriorityQueue;
 
-public abstract class ThreeOfAKindTest{
+public class ThreeOfAKindTest{
 
+    ThreeOfAKind threeOfAKind = new ThreeOfAKind();
+    
     @Test
     void testIsContainedIn() {
-        ThreeOfAKind threeOfAKind = new ThreeOfAKind();
 
-        // Test when hand contains Three of a Kind
         PriorityQueue<Card> handWithThreeOfAKind = new PriorityQueue<>();
         handWithThreeOfAKind.add(new Card(Card.Suit.CLUBS, Card.Rank.JACK));
         handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
@@ -26,6 +26,11 @@ public abstract class ThreeOfAKindTest{
         handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
         handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
         assertEquals(true, threeOfAKind.isContainedIn(handWithThreeOfAKind));
+    }
+
+    @Test
+    void testGetThreeOfAKind(){
+
 
     }
 

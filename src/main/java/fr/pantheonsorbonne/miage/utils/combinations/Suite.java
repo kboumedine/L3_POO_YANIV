@@ -25,7 +25,7 @@ public class Suite implements Combination {
         return true;
     }
 
-    public Deque<Card> getSuite(PriorityQueue<Card> hand) {
+    public static Deque<Card> getSuite(PriorityQueue<Card> hand) {
         return new ArrayDeque<>(hand);
     }
 }

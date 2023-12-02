@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class DiscardPile {
 
-    Deque<Card> discardPile = new LinkedList<Card>();
+    private Deque<Card> discardPile;
 
 
     public DiscardPile() {
@@ -19,6 +19,8 @@ public class DiscardPile {
     public void setDiscardPile(Deque<Card> discardPile) {
         this.discardPile = discardPile;
     }
+
+
     
 
     public void addAll(Deque<Card> cardsToDiscard) {

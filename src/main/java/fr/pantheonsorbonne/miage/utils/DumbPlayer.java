@@ -44,10 +44,12 @@ public class DumbPlayer extends Player{
     }
 
     @Override
-    public void drawFromDeck(Deque<Card> deck) {
+    public void drawFromDeck(Deck deck) {
         // TODO Auto-generated method stub
         super.drawFromDeck(deck);
     }
+
+
 
     
 

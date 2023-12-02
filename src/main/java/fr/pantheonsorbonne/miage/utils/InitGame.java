@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 
 
 public class InitGame {
+
     
     Deck deck = new Deck();
     
@@ -26,9 +27,11 @@ public class InitGame {
                 player = new SmartPlayer("SmartPlayer "+ i);
             }
 
+            //deck.initializeDeck();
+
             deck.shuffleDeck();
             // Initialisez la main du joueur à partir du deck
-            player.initHand(deck.getDeck());
+            player.initHand(deck);
             
             // Ajoutez le joueur à l'ensemble de joueurs
             players.add(player);
@@ -45,16 +48,35 @@ public class InitGame {
         List<Player> players = initGame.initPlayers();
 
         DiscardPile discardPile = new DiscardPile();
+        Deck deck = new Deck();
 
-        // Affichez la main de chaque joueur
-        for (Player player : players) {
-            PriorityQueue<Card> hand = player.getHand();
-            player.displayHand(hand);
-            player.discard(discardPile);
-            player.displayHand(hand);
-        }                                                           //beug ca tej les as
+        Card randomCard = deck.getDeck().pollFirst();  // Retirez la première carte du deck
+        discardPile.getDiscardPile().add(randomCard);
 
-        discardPile.displayDiscardPile();
+        for(;;){
+            for (Player player : players) {
+                PriorityQueue<Card> hand = player.getHand();
+                player.displayHand(hand);
+                System.out.println(player.getPoints());
+                Card lastCardDiscarded = discardPile.getDiscardPile().peekLast();
+                player.discard(discardPile);
+                if(!(discardPile.getDiscardPile().isEmpty()) && (lastCardDiscarded.getYanivValue()<7)){
+                    player.drawFromDiscardPile(lastCardDiscarded);
+                    System.out.println("ici");
+                } else{
+                    player.drawFromDeck(deck);
+                }
+                player.displayHand(hand);
+                System.out.println(player.getPoints());
+                if(player.getPoints()<15){
+                    System.out.println("Player "+ player.getName() + " win");
+                    return;
+                }
+            }                              //beug ca tej les as
+                                
+
+            discardPile.displayDiscardPile();
+        }
 
     }
 

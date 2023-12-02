@@ -34,11 +34,11 @@ public abstract class Player {
 
 
 
-    public void initHand(Deque<Card> deck){
+    public void initHand(Deck deck){
         int numCardsToDraw = 7; // ou la taille de la main souhaitée
 
-        for (int i = 0; i < numCardsToDraw && !deck.isEmpty(); i++) {
-            Card drawnCard = deck.pop();
+        for (int i = 0; i < numCardsToDraw && !(deck.getDeck().isEmpty()); i++) {
+            Card drawnCard = (deck.getDeck().pop());
             hand.add(drawnCard);
         }
     }
@@ -54,6 +54,7 @@ public abstract class Player {
 
 
     public abstract Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand);
+    // public abstract void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand);
 
 
 
@@ -64,14 +65,23 @@ public abstract class Player {
     }
 
 
-    public void drawFromDeck(Deque<Card> deck){
-        Card drawnCard = deck.pop();
+    public void drawFromDeck(Deck deck){
+        Card drawnCard = deck.getDeck().pop();
         hand.add(drawnCard);
     }
     
-    public void drawFromDiscardPile(Deque<Card> discardPile){
-        Card drawnCard = discardPile.pop();
-        hand.add(drawnCard);
+    public void drawFromDiscardPile(Card lastCardDiscarded){
+        hand.add(lastCardDiscarded);
+    }
+
+    public int getPoints() {
+        int totalPoints = 0;
+    
+        for (Card card : hand) {
+            totalPoints += card.getYanivValue();
+        }
+    
+        return totalPoints;
     }
 
 }
