@@ -1,24 +1,28 @@
 package fr.pantheonsorbonne.miage.utils;
 
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.PriorityQueue;
+import java.util.Set;
 
+public class initGame {
 
-public class InitGame {
+    private Deck deck = new Deck();
+    private DiscardPile discardPile = new DiscardPile();
+    private Set<Player> players = new LinkedHashSet<>();
 
-    
-    Deck deck = new Deck();
-    
-    List<Player> players = new ArrayList<>();
+    public void initializeGame() {
+        deck.initializeDeck();
+        deck.shuffleDeck();
+        initPlayers();
+        initDiscardPile();
+        play();
+    }
 
-    public List<Player> initPlayers(){
+    public Set<Player> initPlayers(){
 
-        int numPlayers = 5; // Nombre de joueurs que vous souhaitez initialiser
+        int numPlayers = 5;
 
         for (int i = 1; i <= numPlayers; i++) {
-            // String playerName = "Player " + i;
             
             Player player;
             if (i % 2 == 0) {
@@ -27,31 +31,21 @@ public class InitGame {
                 player = new SmartPlayer("SmartPlayer "+ i);
             }
 
-            //deck.initializeDeck();
-
-            deck.shuffleDeck();
-            // Initialisez la main du joueur à partir du deck
             player.initHand(deck);
             
-            // Ajoutez le joueur à l'ensemble de joueurs
             players.add(player);
         }
 
         return players;
-        
 
     }
 
-    public static void main(String[] args) {
-        
-        InitGame initGame = new InitGame();
-        List<Player> players = initGame.initPlayers();
-
-        DiscardPile discardPile = new DiscardPile();
-        Deck deck = new Deck();
-
+    public void initDiscardPile(){
         Card randomCard = deck.getDeck().pollFirst();  // Retirez la première carte du deck
         discardPile.getDiscardPile().add(randomCard);
+    }
+
+    public void play(){
 
         for(;;){
             for (Player player : players) {
@@ -68,7 +62,7 @@ public class InitGame {
                 }
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
-                if(player.getPoints()<15){
+                if(player.getPoints()<=7){
                     System.out.println("Player "+ player.getName() + " win");
                     return;
                 }
@@ -78,7 +72,7 @@ public class InitGame {
             discardPile.displayDiscardPile();
         }
 
+
     }
-
-
+    
 }
