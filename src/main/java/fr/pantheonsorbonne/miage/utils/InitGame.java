@@ -62,7 +62,7 @@ public class initGame {
                 }
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
-                if(player.getPoints()<=7){
+                if(player.getPoints()<=10){
                     System.out.println("Player "+ player.getName() + " win");
                     return;
                 }
