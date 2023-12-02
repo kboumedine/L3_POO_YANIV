@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.PriorityQueue;
 
-public abstract class ThreeOfAKindTest{
+public class ThreeOfAKindTest{
 
     @Test
     void testIsContainedIn() {
