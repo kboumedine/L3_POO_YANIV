@@ -10,6 +10,8 @@ public abstract class Player {
 
     public PriorityQueue<Card> hand = new PriorityQueue<Card>();
 
+    int totalPoint = 0;
+
 
     public Player(String name) {
         this.name = name;
@@ -54,7 +56,7 @@ public abstract class Player {
 
 
     public abstract Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand);
-    // public abstract void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand);
+    public abstract void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand);
 
 
 
@@ -66,6 +68,10 @@ public abstract class Player {
 
 
     public void drawFromDeck(Deck deck){
+        if (deck.getDeck().isEmpty()) {
+            // Lancez une exception indiquant que le deck est vide.
+            System.out.println("Le deck est vide. Impossible de piocher.");
+        }
         Card drawnCard = deck.getDeck().pop();
         hand.add(drawnCard);
     }
@@ -75,14 +81,30 @@ public abstract class Player {
     }
 
     public int getPoints() {
-        int totalPoints = 0;
+        int points = 0;
     
         for (Card card : hand) {
-            totalPoints += card.getYanivValue();
+            points += card.getYanivValue();
         }
     
-        return totalPoints;
+        return points;
     }
+
+    public int getTotalPoint(int point){
+        totalPoint += point;
+        return totalPoint;
+    }
+
+
+    public void clearHand(){
+        while(!hand.isEmpty()){
+            hand.poll();
+        }
+        
+    }
+
+
+
 
 }
 

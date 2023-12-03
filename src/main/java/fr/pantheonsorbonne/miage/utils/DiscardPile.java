@@ -35,6 +35,12 @@ public class DiscardPile {
     
         System.out.println(); 
     }
+
+    public void clearDiscardPile(){
+        while(!discardPile.isEmpty()){
+            discardPile.poll();
+        }
+    }
     
     
 }

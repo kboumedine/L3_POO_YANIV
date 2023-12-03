@@ -10,12 +10,11 @@ public class initGame {
     private DiscardPile discardPile = new DiscardPile();
     private Set<Player> players = new LinkedHashSet<>();
 
-    public void initializeGame() {
+    public void launchGame(){
         deck.initializeDeck();
         deck.shuffleDeck();
-        initPlayers();
         initDiscardPile();
-        play();
+        initPlayers();
     }
 
     public Set<Player> initPlayers(){
@@ -34,6 +33,7 @@ public class initGame {
             player.initHand(deck);
             
             players.add(player);
+        
         }
 
         return players;
@@ -41,38 +41,54 @@ public class initGame {
     }
 
     public void initDiscardPile(){
-        Card randomCard = deck.getDeck().pollFirst();  // Retirez la première carte du deck
+        Card randomCard = deck.getDeck().pollFirst();  
         discardPile.getDiscardPile().add(randomCard);
     }
 
-    public void play(){
+    public void playRound(){
 
         for(;;){
             for (Player player : players) {
+                //System.out.println("Discard Pile Size: " + discardPile.getDiscardPile().size());
                 PriorityQueue<Card> hand = player.getHand();
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
-                Card lastCardDiscarded = discardPile.getDiscardPile().peekLast();
-                player.discard(discardPile);
-                if(!(discardPile.getDiscardPile().isEmpty()) && (lastCardDiscarded.getYanivValue()<7)){
-                    player.drawFromDiscardPile(lastCardDiscarded);
-                    System.out.println("ici");
-                } else{
-                    player.drawFromDeck(deck);
-                }
+                player.play(discardPile, deck, hand);
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
-                if(player.getPoints()<=10){
-                    System.out.println("Player "+ player.getName() + " win");
+                System.out.println();
+                if(canDeclareYaniv(player)){
+                    System.out.println(player.getName()+"win");
+                    resumeRound();
                     return;
                 }
-            }                              //beug ca tej les as
-                                
-
-            discardPile.displayDiscardPile();
+            }
         }
-
-
     }
-    
+
+
+    public boolean canDeclareYaniv(Player player){
+        return player.getPoints() <= 20;
+    }
+
+    public void newRound(){
+        for (Player player : players) {
+            PriorityQueue<Card> hand = player.getHand();
+            hand.clear();
+        }
+        discardPile.getDiscardPile().clear();
+        deck.initializeDeck();
+        deck.shuffleDeck();
+        initDiscardPile();
+        for (Player player : players) {
+            player.initHand(deck);
+        }
+    }
+
+    public void resumeRound(){
+        for (Player player : players) {
+            //PriorityQueue<Card> hand = player.getHand();
+            System.out.println("Player "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.getTotalPoint(player.getPoints()));
+        }
+    } 
 }

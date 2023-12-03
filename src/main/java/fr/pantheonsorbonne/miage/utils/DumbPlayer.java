@@ -43,10 +43,18 @@ public class DumbPlayer extends Player{
         super.discard(discardPile);
     }
 
+    
+
     @Override
     public void drawFromDeck(Deck deck) {
         // TODO Auto-generated method stub
         super.drawFromDeck(deck);
+    }
+
+    @Override
+    public void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand) {
+        discard(discardPile);
+        drawFromDeck(deck);
     }
 
 

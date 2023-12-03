@@ -62,6 +62,18 @@ public class SmartPlayer extends Player{
         super.discard(discardPile);
     }
 
+    @Override
+    public void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand) {
+        Card lastCardDiscarded = discardPile.getDiscardPile().peekLast();
+        discard(discardPile);
+        if(!(discardPile.getDiscardPile().isEmpty()) && (lastCardDiscarded.getYanivValue()<7)){
+            drawFromDiscardPile(lastCardDiscarded);
+            System.out.println(getName()+ " draws "+lastCardDiscarded.getSuit() + "-" + lastCardDiscarded.getRank()+ " from DiscardedPile.");
+        } else{
+            drawFromDeck(deck);
+        }
+    }
+
   
     
 }
