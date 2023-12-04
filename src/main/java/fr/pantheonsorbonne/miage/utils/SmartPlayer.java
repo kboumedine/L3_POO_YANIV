@@ -36,16 +36,37 @@ public class SmartPlayer extends Player{
     public Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand) {
         
         Deque<Card> discardedCards = new ArrayDeque<Card>();
-
+        int value = 0;
         if(HandleCombination.hasFourOfAKind(hand)){
             Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);
-            discardedCards.addAll(fourOfAKind);
+            for (Card card : fourOfAKind){
+                value += card.getYanivValue();
+            }
+            if(value>=hand.peek().getYanivValue()){
+                discardedCards.addAll(fourOfAKind);
+            }else{
+            discardedCards.add(hand.poll());
+            }
         }else if (HandleCombination.hasThreeOfAKind(hand)){
             Deque<Card> threeOfAKind = ThreeOfAKind.getThreeOfAKind(hand);
-            discardedCards.addAll(threeOfAKind);
+            for (Card card : threeOfAKind){
+                value += card.getYanivValue();
+            }
+            if(value>=hand.peek().getYanivValue()){
+                discardedCards.addAll(threeOfAKind);
+            }else{
+            discardedCards.add(hand.poll());
+            }
         }else if(HandleCombination.hasPair(hand)){
             Deque<Card> pair = Pair.getHighestPair(hand);
-            discardedCards.addAll(pair);
+            for (Card card : pair){
+                value += card.getYanivValue();
+            }
+            if(value>=hand.peek().getYanivValue()){
+                discardedCards.addAll(pair);
+            }else{
+            discardedCards.add(hand.poll());
+            }
         }else{
             discardedCards.add(hand.poll());
         }

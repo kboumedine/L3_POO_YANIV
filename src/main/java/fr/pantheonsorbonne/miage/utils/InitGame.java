@@ -8,7 +8,7 @@ public class initGame {
 
     private Deck deck = new Deck();
     private DiscardPile discardPile = new DiscardPile();
-    private Set<Player> players = new LinkedHashSet<>();
+    public Set<Player> players = new LinkedHashSet<>();
 
     public void launchGame(){
         deck.initializeDeck();
@@ -60,6 +60,7 @@ public class initGame {
                 if(canDeclareYaniv(player)){
                     System.out.println(player.getName()+"win");
                     resumeRound();
+                    eliminatePlayers();
                     return;
                 }
             }
@@ -68,7 +69,7 @@ public class initGame {
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 20;
+        return player.getPoints() <= 30;
     }
 
     public void newRound(){
@@ -86,9 +87,21 @@ public class initGame {
     }
 
     public void resumeRound(){
+        
         for (Player player : players) {
-            //PriorityQueue<Card> hand = player.getHand();
-            System.out.println("Player "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.getTotalPoint(player.getPoints()));
+            player.totalPoint += player.getPoints();
+            System.out.println("Player "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.totalPoint);
         }
     } 
+
+    public void eliminatePlayers(){
+        Set<Player> eliminatedPlayers = new LinkedHashSet<>();
+        for (Player player : players) {
+            if(player.totalPoint>=100){
+                eliminatedPlayers.add(player);
+                System.out.println("Player "+player.getName()+" is eliminated.");
+            }
+        }
+        players.removeAll(eliminatedPlayers);
+    }
 }

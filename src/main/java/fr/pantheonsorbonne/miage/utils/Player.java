@@ -10,7 +10,7 @@ public abstract class Player {
 
     public PriorityQueue<Card> hand = new PriorityQueue<Card>();
 
-    int totalPoint = 0;
+    public int totalPoint = 0;
 
 
     public Player(String name) {
@@ -90,10 +90,7 @@ public abstract class Player {
         return points;
     }
 
-    public int getTotalPoint(int point){
-        totalPoint += point;
-        return totalPoint;
-    }
+
 
 
     public void clearHand(){
