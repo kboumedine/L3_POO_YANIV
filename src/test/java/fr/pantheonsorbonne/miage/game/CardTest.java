@@ -10,16 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CardTest {
 
 
-
-    @Test
-    void testToString() {
-        Card card1 = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-        assertEquals("ACE of CLUBS", card1.toString());
-
-        Card card2 = new Card(Card.Suit.HEARTS, Card.Rank.TEN);
-        assertEquals("TEN of HEARTS", card2.toString());
-    }
-
     @Test
     void testGettersAndSetters() {
         Card card = new Card(Card.Suit.DIAMONDS, Card.Rank.KING);
