@@ -67,10 +67,10 @@ public abstract class Player {
     }
 
 
-    public void drawFromDeck(Deck deck){
+    public void drawFromDeck(Deck deck, DiscardPile discardPile){
         if (deck.getDeck().isEmpty()) {
-            // Lancez une exception indiquant que le deck est vide.
             System.out.println("Le deck est vide. Impossible de piocher.");
+            deck.refillDeck(deck, discardPile);
         }
         Card drawnCard = deck.getDeck().pop();
         hand.add(drawnCard);
@@ -88,16 +88,6 @@ public abstract class Player {
         }
     
         return points;
-    }
-
-
-
-
-    public void clearHand(){
-        while(!hand.isEmpty()){
-            hand.poll();
-        }
-        
     }
 
 

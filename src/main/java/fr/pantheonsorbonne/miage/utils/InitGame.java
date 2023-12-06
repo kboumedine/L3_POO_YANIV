@@ -1,14 +1,19 @@
 package fr.pantheonsorbonne.miage.utils;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class initGame {
+import fr.pantheonsorbonne.miage.utils.specialrules.SpecialRules;
+import fr.pantheonsorbonne.miage.utils.combinations.Pair;
+
+public class initGame implements SpecialRules{
 
     private Deck deck = new Deck();
     private DiscardPile discardPile = new DiscardPile();
-    public Set<Player> players = new LinkedHashSet<>();
+    public List<Player> players = new LinkedList<>();
 
     public void launchGame(){
         deck.initializeDeck();
@@ -17,7 +22,7 @@ public class initGame {
         initPlayers();
     }
 
-    public Set<Player> initPlayers(){
+    public List<Player> initPlayers(){          // verifier l'unicité des cartes 
 
         int numPlayers = 5;
 
@@ -47,16 +52,31 @@ public class initGame {
 
     public void playRound(){
 
+        boolean skipNextTurn = false;
+
         for(;;){
-            for (Player player : players) {
-                //System.out.println("Discard Pile Size: " + discardPile.getDiscardPile().size());
+            for (int i=0; i<players.size(); i++) {
+
+                Player player = players.get(i);
                 PriorityQueue<Card> hand = player.getHand();
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
+
+                if(skipNextTurn){
+                    skipNextTurn = false;
+                    continue;
+                }
+
+                if(shouldSkipNextTurn(player)){
+                    System.out.println("ok");
+                    skipNextTurn = true ;
+                }
+
                 player.play(discardPile, deck, hand);
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
                 System.out.println();
+
                 if(canDeclareYaniv(player)){
                     System.out.println(player.getName()+"win");
                     resumeRound();
@@ -69,7 +89,7 @@ public class initGame {
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 30;
+        return player.getPoints() <= 14;
     }
 
     public void newRound(){
@@ -103,5 +123,35 @@ public class initGame {
             }
         }
         players.removeAll(eliminatedPlayers);
+    }
+
+    @Override
+    public boolean changeTurn(Player player) {
+
+        if(Pair.hasPairOf(player.getCardsToDiscard(player.getHand()),7)){
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean shouldSkipNextTurn(Player player) {
+        if(Pair.hasPairOf(player.getCardsToDiscard(player.getHand()),8)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void drawAndExchangeFromOtherPlayer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drawAndExchangeFromOtherPlayer'");
+    }
+
+    @Override
+    public void finishTheSuitOrDraw() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'finishTheSuitOrDraw'");
     }
 }

@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Deck {
 
     private Deque<Card> deck;   //voir si c pas mieux de l'implementer a partir de ArrayDeque
@@ -38,6 +39,13 @@ public class Deck {
         List<Card> deckList = new ArrayList<>(deck);
         Collections.shuffle(deckList);
         deck = new LinkedList<>(deckList);
+    }
+
+    public Deque<Card> refillDeck(Deck deck, DiscardPile discardPile){
+        Card keepFisrtCard = discardPile.getDiscardPile().peekFirst();
+        deck.getDeck().addAll(discardPile.getDiscardPile());
+        discardPile.getDiscardPile().add(keepFisrtCard);
+        return deck.getDeck();
     }
     
     

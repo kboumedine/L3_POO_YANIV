@@ -49,6 +49,19 @@ public class Pair implements Combination{
 
         return highestPair;
     }
+
+    public static boolean hasPairOf(Deque<Card> cards, int targetRank) {
+        int count = 0;
+        for (Card card : cards) {
+            if (card.getYanivValue() == targetRank) {
+                count++;
+            }
+            if (count == 2) {
+                    return true;
+            }
+        }
+        return false;
+    }
     
 }
     

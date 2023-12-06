@@ -52,7 +52,7 @@ public class SmartPlayer extends Player{
             for (Card card : threeOfAKind){
                 value += card.getYanivValue();
             }
-            if(value>=hand.peek().getYanivValue()){
+            if(value>=hand.peek().getYanivValue()){               // faut gerer qd ils ont 2 combi a la fois
                 discardedCards.addAll(threeOfAKind);
             }else{
             discardedCards.add(hand.poll());
@@ -91,7 +91,7 @@ public class SmartPlayer extends Player{
             drawFromDiscardPile(lastCardDiscarded);
             System.out.println(getName()+ " draws "+lastCardDiscarded.getSuit() + "-" + lastCardDiscarded.getRank()+ " from DiscardedPile.");
         } else{
-            drawFromDeck(deck);
+            drawFromDeck(deck, discardPile);
         }
     }
 
