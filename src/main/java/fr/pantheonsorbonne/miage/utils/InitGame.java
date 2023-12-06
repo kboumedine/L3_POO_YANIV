@@ -66,10 +66,14 @@ public class initGame implements SpecialRules{
                     skipNextTurn = false;
                     continue;
                 }
-
                 if(shouldSkipNextTurn(player)){
                     System.out.println("ok");
                     skipNextTurn = true ;
+                }
+
+                if(shouldExchangeWithOtherPlayer(player)){
+                    exchangeWithOtherPlayer(player, players.get(i+1));
+                    System.out.println("a echangé");
                 }
 
                 player.play(discardPile, deck, hand);
@@ -126,7 +130,7 @@ public class initGame implements SpecialRules{
     }
 
     @Override
-    public boolean changeTurn(Player player) {
+    public boolean shouldReverseSense(Player player) {
 
         if(Pair.hasPairOf(player.getCardsToDiscard(player.getHand()),7)){
             return true;
@@ -144,9 +148,19 @@ public class initGame implements SpecialRules{
     }
 
     @Override
-    public void drawAndExchangeFromOtherPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawAndExchangeFromOtherPlayer'");
+    public boolean shouldExchangeWithOtherPlayer(Player player) {
+        if(Pair.hasPairOf(player.getCardsToDiscard(player.getHand()),9)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void exchangeWithOtherPlayer(Player player1, Player player2) {
+        Card pickedCard = player2.getHand().poll();
+        Card givenCard = player1.getHand().poll();
+        player1.getHand().add(pickedCard);
+        player2.getHand().add(givenCard);
     }
 
     @Override
