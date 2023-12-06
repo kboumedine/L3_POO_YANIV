@@ -13,7 +13,7 @@ public class ThreeOfAKind implements Combination {
 
     @Override
     public boolean isContainedIn(PriorityQueue<Card> hand) {
-        // Utilisation d'une map pour compter le nombre de cartes de chaque valeur
+        
         Map<Rank, Integer> rankCount = new HashMap<>();
         for (Card card : hand) {
             rankCount.put(card.getRank(), rankCount.getOrDefault(card.getRank(), 0) + 1);

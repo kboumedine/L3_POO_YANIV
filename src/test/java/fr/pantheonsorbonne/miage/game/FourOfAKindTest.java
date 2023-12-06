@@ -17,14 +17,14 @@ public class FourOfAKindTest {
     @Test
     void testIsContainedIn() {
 
-        PriorityQueue<Card> handWithThreeOfAKind = new PriorityQueue<>();
-        handWithThreeOfAKind.add(new Card(Card.Suit.CLUBS, Card.Rank.JACK));
-        handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
-        handWithThreeOfAKind.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
-        handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.FIVE));
-        handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.FOUR));
-        handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
-        handWithThreeOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
-        assertEquals(true, fourOfAKind.isContainedIn(handWithThreeOfAKind));
+        PriorityQueue<Card> handWithFourOfAKind = new PriorityQueue<>();
+        handWithFourOfAKind.add(new Card(Card.Suit.CLUBS, Card.Rank.JACK));
+        handWithFourOfAKind.add(new Card(Card.Suit.CLUBS, Card.Rank.JACK));
+        handWithFourOfAKind.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
+        handWithFourOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
+        handWithFourOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
+        handWithFourOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
+        handWithFourOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
+        assertEquals(true, fourOfAKind.isContainedIn(handWithFourOfAKind));
     }
 }
