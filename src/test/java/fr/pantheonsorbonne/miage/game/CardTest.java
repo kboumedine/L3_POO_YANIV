@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CardTest {
 
-    /* 
+
 
     @Test
     void testToString() {
@@ -34,7 +34,6 @@ public class CardTest {
         assertEquals(Card.Rank.SEVEN, card.getRank());
     }
 
-    */
 
     @Test
     void testGetYanivValue() {

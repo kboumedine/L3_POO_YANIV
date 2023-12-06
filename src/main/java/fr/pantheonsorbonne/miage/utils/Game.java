@@ -5,7 +5,7 @@ package fr.pantheonsorbonne.miage.utils;
 public class Game {
 
     public void playGame(){
-        initGame game = new initGame();
+        InitGame game = new InitGame();
         game.launchGame();
         game.playRound();
         while(game.players.size()>1){

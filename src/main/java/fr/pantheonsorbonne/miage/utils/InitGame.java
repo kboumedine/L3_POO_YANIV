@@ -9,7 +9,7 @@ import java.util.Set;
 import fr.pantheonsorbonne.miage.utils.specialrules.SpecialRules;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
 
-public class initGame implements SpecialRules{
+public class InitGame implements SpecialRules{
 
     private Deck deck = new Deck();
     private DiscardPile discardPile = new DiscardPile();
@@ -26,7 +26,7 @@ public class initGame implements SpecialRules{
 
         int numPlayers = 5;
 
-        for (int i = 1; i <= numPlayers; i++) {
+        for (int i = 0; i <= numPlayers; i++) {
             
             Player player;
             if (i % 2 == 0) {
