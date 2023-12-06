@@ -26,7 +26,7 @@ public class InitGame implements SpecialRules{
 
         int numPlayers = 5;
 
-        for (int i = 0; i <= numPlayers; i++) {
+        for (int i = 1; i <= numPlayers; i++) {
             
             Player player;
             if (i % 2 == 0) {
@@ -36,6 +36,8 @@ public class InitGame implements SpecialRules{
             }
 
             player.initHand(deck);
+            Card card = player.getHand().peek();
+            System.out.println(card.getSuit()+" " + card.getRank());
             
             players.add(player);
         
@@ -55,17 +57,19 @@ public class InitGame implements SpecialRules{
         boolean skipNextTurn = false;
 
         for(;;){
-            for (int i=1; i<players.size(); i++) {
+            for (int i=0; i<players.size(); i++) {
+
+
+                if(skipNextTurn){
+                    skipNextTurn = false;
+                    continue;
+                }
 
                 Player player = players.get(i);
                 PriorityQueue<Card> hand = player.getHand();
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
 
-                if(skipNextTurn){
-                    skipNextTurn = false;
-                    continue;
-                }
                 if(shouldSkipNextTurn(player)){
                     System.out.println("ok");
                     skipNextTurn = true ;
@@ -98,7 +102,7 @@ public class InitGame implements SpecialRules{
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 14;
+        return player.getPoints() <= 7;
     }
 
     public void newRound(){
