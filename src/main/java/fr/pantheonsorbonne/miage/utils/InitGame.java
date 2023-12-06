@@ -55,7 +55,7 @@ public class initGame implements SpecialRules{
         boolean skipNextTurn = false;
 
         for(;;){
-            for (int i=0; i<players.size(); i++) {
+            for (int i=1; i<players.size(); i++) {
 
                 Player player = players.get(i);
                 PriorityQueue<Card> hand = player.getHand();
@@ -72,8 +72,13 @@ public class initGame implements SpecialRules{
                 }
 
                 if(shouldExchangeWithOtherPlayer(player)){
+                    if(i!=players.size()){
                     exchangeWithOtherPlayer(player, players.get(i+1));
                     System.out.println("a echangé");
+                    }else{
+                        exchangeWithOtherPlayer(player, players.get(1));
+                        System.out.println("a echangé");
+                    }
                 }
 
                 player.play(discardPile, deck, hand);

@@ -3,8 +3,10 @@ package fr.pantheonsorbonne.miage.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 
 public class Deck {
@@ -21,10 +23,22 @@ public class Deck {
     }
     
     public void initializeDeck(){
+
+        Set<Card> deckBis = new LinkedHashSet<>();
+
         for (Card.Suit suit : Card.Suit.values()) {
             for (Card.Rank rank : Card.Rank.values()) {
-                deck.add(new Card(suit, rank));
+                Card newCard = new Card(suit, rank);
+                deckBis.add(newCard);
             }
+        }
+        deck = new LinkedList<>(deckBis);
+
+    }
+
+    public void displayDeck() {
+        for (Card card : deck) {
+            System.out.print(card.getSuit() + "-" + card.getRank() + " ");
         }
     }
 
