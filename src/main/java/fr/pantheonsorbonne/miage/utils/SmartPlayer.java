@@ -69,7 +69,7 @@ public class SmartPlayer extends Player{
             discardedCards.add(hand.peek());
             }
         }else if(HandleCombination.hasSuite(hand)){
-            Deque<Card> suit = Suite.getHighestSuit(hand);
+            Deque<Card> suit = Suite.getSuit(hand);
             for (Card card : suit){
                 value += card.getYanivValue();
             }

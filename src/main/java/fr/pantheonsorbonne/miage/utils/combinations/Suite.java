@@ -1,6 +1,9 @@
 package fr.pantheonsorbonne.miage.utils.combinations;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,32 +21,52 @@ public class Suite implements Combination {
 
     @Override
     public boolean isContainedIn(PriorityQueue<Card> hand) {
-        // Utiliser une Map pour suivre les valeurs uniques pour chaque motif
-        Map<Suit, Set<Integer>> suitValuesMap = new HashMap<>();
-
-        for (Card card : hand) {
-            Suit suit = card.getSuit();
-            int value = card.getRank().getValue();
-
-            // Si la valeur est déjà présente pour le motif, pas besoin de la vérifier à nouveau
-            if (suitValuesMap.containsKey(suit) && suitValuesMap.get(suit).contains(value)) {
-                continue;
-            }
-
-            // Vérifier si une suite d'au moins trois cartes est présente pour le motif donné
-            Set<Integer> suitValues = suitValuesMap.computeIfAbsent(suit, k -> new HashSet<>());
-            if (suitValues.contains(value - 1) || suitValues.contains(value + 1)) {
-                return true;
-            }
-
-            suitValues.add(value);
+        if (hand.size() < 3) {
+            // Une suite doit avoir au moins 3 cartes
+            return false;
         }
 
-        // Aucune suite d'au moins trois cartes trouvée
+        List<Card> cardList = new ArrayList<>(hand);
+        Collections.sort(cardList);
+
+        for (int i = 0; i < cardList.size() - 2; i++) {
+            if (isSequence(cardList.subList(i, i + 3))) {
+                return true;
+            }
+        }
+
         return false;
     }
 
+    private static boolean isSequence(List<Card> cards) {
+        for (int i = 1; i < cards.size(); i++) {
+            if (cards.get(i).getSuit() != cards.get(0).getSuit() ||
+                    Math.abs(cards.get(i).getRank().ordinal() - cards.get(i - 1).getRank().ordinal()) != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+
+    public static Deque<Card> getSuit(PriorityQueue<Card> hand) {
+        if (hand.size() < 3) {
+            // Une suite doit avoir au moins 3 cartes
+            throw new IllegalArgumentException("La main doit contenir au moins 3 cartes.");
+        }
+
+        List<Card> cardList = new ArrayList<>(hand);
+        Collections.sort(cardList);
+
+        for (int i = 0; i < cardList.size() - 2; i++) {
+            if (isSequence(cardList.subList(i, i + 3))) {
+                return new ArrayDeque<>(cardList.subList(i, i + 3));
+            }
+        }
+
+        throw new IllegalStateException("Aucune suite trouvée dans la main.");
+    }
+    
 
     public static Deque<Card> getHighestSuit(PriorityQueue<Card> hand) {
         // Utiliser une Map pour suivre la suite de plus grande valeur pour chaque motif

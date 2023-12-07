@@ -27,13 +27,15 @@ public class SuiteTest {
     @Test
     void testIsContainedIn2() {
 
-        PriorityQueue<Card> handWithSuit = new PriorityQueue<>();
-        handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
-        handWithSuit.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
-        handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
-        handWithSuit.add(new Card(Card.Suit.SPADES, Card.Rank.FOUR));
-        assertEquals(false, suit.isContainedIn(handWithSuit));
+        PriorityQueue<Card> handWithNoSuit = new PriorityQueue<>();
+        handWithNoSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
+        handWithNoSuit.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
+        handWithNoSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
+        handWithNoSuit.add(new Card(Card.Suit.SPADES, Card.Rank.FOUR));
+        assertEquals(false, suit.isContainedIn(handWithNoSuit));
     }
+
+    
 
 
 }
