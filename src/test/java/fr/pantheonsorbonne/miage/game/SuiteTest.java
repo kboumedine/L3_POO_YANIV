@@ -44,7 +44,7 @@ public class SuiteTest {
         handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
         handWithTheSequence.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
         handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
-        handWithTheSequence.add(new Card(Card.Suit.SPADES, Card.Rank.QUEEN));
+        handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
         assertEquals(true, suit.hasTenJackQueenSequence(handWithTheSequence));
     }
 
