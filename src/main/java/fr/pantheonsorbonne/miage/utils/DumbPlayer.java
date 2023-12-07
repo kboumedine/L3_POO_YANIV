@@ -27,22 +27,6 @@ public class DumbPlayer extends Player{
         return super.getName();
     }
 
-    @Override
-    public Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand) {
-
-        Deque<Card> discardedCards = new ArrayDeque<Card>();
-        discardedCards.add(hand.poll());
-        return discardedCards;
-        
-    }
-
-
-    @Override
-    public void discard(DiscardPile discardPile) {
-        // TODO Auto-generated method stub
-        super.discard(discardPile);
-    }
-
     
 
     @Override
@@ -56,6 +40,21 @@ public class DumbPlayer extends Player{
         discard(discardPile);
         drawFromDeck(deck, discardPile);
     }
+
+    @Override
+    public Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand) {
+        Deque<Card> discardedCards = new ArrayDeque<>();
+        discardedCards.add(hand.peek());
+        return discardedCards;
+    }
+
+    @Override
+    public void discard(DiscardPile discardPile) {
+        // TODO Auto-generated method stub
+        super.discard(discardPile);
+    }
+
+
 
 
 

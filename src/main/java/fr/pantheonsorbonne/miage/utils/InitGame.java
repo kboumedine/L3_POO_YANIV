@@ -76,7 +76,7 @@ public class InitGame implements SpecialRules{
                 }
 
                 if(shouldExchangeWithOtherPlayer(player)){
-                    if(i!=players.size()){
+                    if(i!=players.size()-1){
                     exchangeWithOtherPlayer(player, players.get(i+1));
                     System.out.println("a echangé");
                     }else{
@@ -102,7 +102,7 @@ public class InitGame implements SpecialRules{
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 7;
+        return player.getPoints() <= 15;
     }
 
     public void newRound(){

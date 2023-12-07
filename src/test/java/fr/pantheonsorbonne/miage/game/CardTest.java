@@ -30,9 +30,7 @@ public class CardTest {
         Card card = new Card(Card.Suit.HEARTS, Card.Rank.TEN);
         assertEquals(10, card.getYanivValue());
     }
-
-
-    /* 
+ 
     @Test
     void testCompareTo() {
         Card card1 = new Card(Card.Suit.HEARTS, Card.Rank.ACE);
@@ -47,7 +45,7 @@ public class CardTest {
 
         // Test when card1 and card3 have the same value
         assertEquals(0, card1.compareTo(card3));
-    }   */
+    }  
 
 
 }

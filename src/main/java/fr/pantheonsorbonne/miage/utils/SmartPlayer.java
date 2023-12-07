@@ -45,7 +45,7 @@ public class SmartPlayer extends Player{
             if(value>=hand.peek().getYanivValue()){
                 discardedCards.addAll(fourOfAKind);
             }else{
-            discardedCards.add(hand.poll());
+            discardedCards.add(hand.peek());
             }
         }else if (HandleCombination.hasThreeOfAKind(hand)){
             Deque<Card> threeOfAKind = ThreeOfAKind.getThreeOfAKind(hand);
@@ -55,7 +55,7 @@ public class SmartPlayer extends Player{
             if(value>=hand.peek().getYanivValue()){               // faut gerer qd ils ont 2 combi a la fois
                 discardedCards.addAll(threeOfAKind);
             }else{
-            discardedCards.add(hand.poll());
+            discardedCards.add(hand.peek());
             }
         }else if(HandleCombination.hasPair(hand)){
             Deque<Card> pair = Pair.getHighestPair(hand);
@@ -65,10 +65,10 @@ public class SmartPlayer extends Player{
             if(value>=hand.peek().getYanivValue()){
                 discardedCards.addAll(pair);
             }else{
-            discardedCards.add(hand.poll());
+            discardedCards.add(hand.peek());
             }
         }else{
-            discardedCards.add(hand.poll());
+            discardedCards.add(hand.peek());
         }
 
         
