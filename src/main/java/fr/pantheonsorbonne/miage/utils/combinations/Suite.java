@@ -2,28 +2,45 @@ package fr.pantheonsorbonne.miage.utils.combinations;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 import fr.pantheonsorbonne.miage.utils.Card;
+import fr.pantheonsorbonne.miage.utils.Card.Suit;
 
 public class Suite implements Combination {
 
     @Override
     public boolean isContainedIn(PriorityQueue<Card> hand) {
-        Deque<Card> suite = new ArrayDeque<>(hand);
+        // Utiliser une Map pour suivre les valeurs uniques pour chaque motif
+        Map<Suit, Set<Integer>> suitValuesMap = new HashMap<>();
 
-        // Vérification de la suite
-        while (suite.size() > 1) {
-            Card currentCard = suite.poll();
-            Card nextCard = suite.peek();
+        for (Card card : hand) {
+            Suit suit = card.getSuit();
+            int value = card.getRank().getValue();
 
-            if (nextCard.getRank().getValue() != currentCard.getRank().getValue() + 1) {
-                return false;
+            // Si la valeur est déjà présente pour le motif, pas besoin de la vérifier à nouveau
+            if (suitValuesMap.containsKey(suit) && suitValuesMap.get(suit).contains(value)) {
+                continue;
             }
+
+            // Vérifier si une suite d'au moins trois cartes est présente pour le motif donné
+            Set<Integer> suitValues = suitValuesMap.computeIfAbsent(suit, k -> new HashSet<>());
+            if (suitValues.contains(value - 1) || suitValues.contains(value + 1)) {
+                return true;
+            }
+
+            suitValues.add(value);
         }
 
-        return true;
+        // Aucune suite d'au moins trois cartes trouvée
+        return false;
     }
+
+
 
     public static Deque<Card> getSuite(PriorityQueue<Card> hand) {
         return new ArrayDeque<>(hand);

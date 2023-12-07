@@ -35,7 +35,7 @@ public class CardTest {
     void testCompareTo() {
         Card card1 = new Card(Card.Suit.HEARTS, Card.Rank.ACE);
         Card card2 = new Card(Card.Suit.DIAMONDS, Card.Rank.TWO);
-        Card card3 = new Card(Card.Suit.CLUBS, Card.Rank.JACK);
+        Card card3 = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
 
         // Test when card1 has a higher value than card2
         assertEquals(1, card1.compareTo(card2));

@@ -17,9 +17,9 @@ public class SuiteTest {
     void testIsContainedIn() {
 
         PriorityQueue<Card> handWithSuit = new PriorityQueue<>();
-        handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
-        handWithSuit.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
         handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.THREE));
+        handWithSuit.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
+        handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
         handWithSuit.add(new Card(Card.Suit.HEARTS, Card.Rank.FOUR));
         assertEquals(true, suit.isContainedIn(handWithSuit));
     }
