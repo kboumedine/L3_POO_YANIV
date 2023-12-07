@@ -7,7 +7,7 @@ public interface SpecialRules {
     boolean shouldSkipNextTurn(Player player);
     boolean shouldExchangeWithOtherPlayer(Player player);
     void exchangeWithOtherPlayer(Player player1, Player player2);
-    void finishTheSuitOrDraw();
+    boolean shouldNextPlayerFinishTheSuitOrDraw(Player player);
 
 }
 

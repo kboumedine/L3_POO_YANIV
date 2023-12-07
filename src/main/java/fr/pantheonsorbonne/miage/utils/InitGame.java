@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.utils;
 
+import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import fr.pantheonsorbonne.miage.utils.specialrules.SpecialRules;
+import fr.pantheonsorbonne.miage.utils.Card.Rank;
+import fr.pantheonsorbonne.miage.utils.Card.Suit;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
+import fr.pantheonsorbonne.miage.utils.combinations.Suite;
 
 public class InitGame implements SpecialRules{
 
@@ -22,7 +26,7 @@ public class InitGame implements SpecialRules{
         initPlayers();
     }
 
-    public List<Player> initPlayers(){          // verifier l'unicité des cartes 
+    public List<Player> initPlayers(){          
 
         int numPlayers = 5;
 
@@ -55,9 +59,13 @@ public class InitGame implements SpecialRules{
     public void playRound(){
 
         boolean skipNextTurn = false;
+        boolean finishTheSuitOrDraw = false;
 
         for(;;){
             for (int i=0; i<players.size(); i++) {
+
+                Player player = players.get(i);
+                PriorityQueue<Card> hand = player.getHand();
 
 
                 if(skipNextTurn){
@@ -65,14 +73,31 @@ public class InitGame implements SpecialRules{
                     continue;
                 }
 
-                Player player = players.get(i);
-                PriorityQueue<Card> hand = player.getHand();
+                if(finishTheSuitOrDraw){
+                    Suit targetSuit = getSuitOfSpecificSequence(player.getCardsToDiscard(player.getHand()));
+                    for (Card card : hand) {
+                        if (card.getSuit() == targetSuit && card.getRank() == Rank.KING) {
+                            
+                            hand.remove(card);
+                            break; 
+
+                        }else{
+                            player.drawFromDeck(deck, discardPile);
+                        }
+                    }
+                    finishTheSuitOrDraw = false;
+                    continue;
+                }
+
                 player.displayHand(hand);
                 System.out.println(player.getPoints());
 
                 if(shouldSkipNextTurn(player)){
-                    System.out.println("ok");
                     skipNextTurn = true ;
+                }
+
+                if(shouldNextPlayerFinishTheSuitOrDraw(player)){
+                    finishTheSuitOrDraw = true;
                 }
 
                 if(shouldExchangeWithOtherPlayer(player)){
@@ -173,8 +198,17 @@ public class InitGame implements SpecialRules{
     }
 
     @Override
-    public void finishTheSuitOrDraw() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'finishTheSuitOrDraw'");
+    public boolean shouldNextPlayerFinishTheSuitOrDraw(Player player) {
+    
+        if(Suite.isSpecificSuite(player.getCardsToDiscard(player.getHand()))){
+            return true;
+        }
+        return false;
     }
+
+    private Suit getSuitOfSpecificSequence(Deque<Card> specificSuite) {
+        // Retourner le motif de la première carte de la suite spécifique
+        return specificSuite.iterator().next().getSuit();
+    }
+
 }
