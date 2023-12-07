@@ -28,4 +28,24 @@ public class Suite implements Combination {
     public static Deque<Card> getSuite(PriorityQueue<Card> hand) {
         return new ArrayDeque<>(hand);
     }
+
+    public static boolean isSuitDiscarded(Deque<Card> discardedCards){
+        
+        if (discardedCards.size() < 2) {
+            // Une pile de moins de 2 cartes ne peut pas former une suite
+            return false;
+        }
+
+        // Vérification de la suite dans la pile de défausse
+        while (discardedCards.size() > 1) {
+            Card currentCard = discardedCards.poll();
+            Card nextCard = discardedCards.peek();
+
+            if (nextCard.getRank().getValue() != currentCard.getRank().getValue() + 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -8,6 +8,7 @@ import fr.pantheonsorbonne.miage.utils.combinations.HandleCombination;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
 import fr.pantheonsorbonne.miage.utils.combinations.ThreeOfAKind;
 import fr.pantheonsorbonne.miage.utils.combinations.FourOfAKind;
+import fr.pantheonsorbonne.miage.utils.combinations.Suite;
 
 
 public class SmartPlayer extends Player{
@@ -67,6 +68,16 @@ public class SmartPlayer extends Player{
             }else{
             discardedCards.add(hand.peek());
             }
+        }else if(HandleCombination.hasSuite(hand)){
+            Deque<Card> suit = Suite.getSuite(hand);
+            for (Card card : suit){
+                value += card.getYanivValue();
+            }
+            if(value>=hand.peek().getYanivValue()){
+                discardedCards.addAll(suit);
+            }else{
+            discardedCards.add(hand.peek());
+            }
         }else{
             discardedCards.add(hand.peek());
         }
@@ -87,7 +98,7 @@ public class SmartPlayer extends Player{
     public void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand) {
         Card lastCardDiscarded = discardPile.getDiscardPile().peekLast();
         discard(discardPile);
-        if(!(discardPile.getDiscardPile().isEmpty()) && (lastCardDiscarded.getYanivValue()<7)){
+        if((lastCardDiscarded.getYanivValue()<7) || (hand.contains(lastCardDiscarded))){
             drawFromDiscardPile(lastCardDiscarded);
             System.out.println(getName()+ " draws "+lastCardDiscarded.getSuit() + "-" + lastCardDiscarded.getRank()+ " from DiscardedPile.");
         } else{
