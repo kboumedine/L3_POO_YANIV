@@ -13,6 +13,7 @@ import fr.pantheonsorbonne.miage.utils.Card.Suit;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
 import fr.pantheonsorbonne.miage.utils.combinations.Suite;
 
+
 public class InitGame implements SpecialRules{
 
     private Deck deck = new Deck();
@@ -30,6 +31,15 @@ public class InitGame implements SpecialRules{
 
         int numPlayers = 5;
 
+        Player player1 = new SmartPlayer("special");
+        PriorityQueue<Card> hand = player1.getHand();
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
+        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
+        hand.add(new Card(Card.Suit.CLUBS, Card.Rank.KING));
+        players.add(player1);
+
         for (int i = 1; i <= numPlayers; i++) {
             
             Player player;
@@ -46,6 +56,8 @@ public class InitGame implements SpecialRules{
             players.add(player);
         
         }
+
+        
 
         return players;
 
@@ -77,11 +89,12 @@ public class InitGame implements SpecialRules{
                     Suit targetSuit = getSuitOfSpecificSequence(player.getCardsToDiscard(player.getHand()));
                     for (Card card : hand) {
                         if (card.getSuit() == targetSuit && card.getRank() == Rank.KING) {
-                            
                             hand.remove(card);
+                            System.out.println("il avait le king");
                             break; 
 
                         }else{
+                            System.out.println("il avait pas le king");
                             player.drawFromDeck(deck, discardPile);
                         }
                     }
@@ -127,7 +140,7 @@ public class InitGame implements SpecialRules{
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 15;
+        return player.getPoints() <= 20;
     }
 
     public void newRound(){
@@ -199,8 +212,7 @@ public class InitGame implements SpecialRules{
 
     @Override
     public boolean shouldNextPlayerFinishTheSuitOrDraw(Player player) {
-    
-        if(Suite.isSpecificSuite(player.getCardsToDiscard(player.getHand()))){
+        if(Suite.hasTenJackQueenSequence(player.getCardsToDiscard(player.getHand()))){
             return true;
         }
         return false;

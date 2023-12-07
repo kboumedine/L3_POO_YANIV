@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.miage.utils.combinations;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import fr.pantheonsorbonne.miage.utils.Card;
-import fr.pantheonsorbonne.miage.utils.Card.Rank;
 import fr.pantheonsorbonne.miage.utils.Card.Suit;
 
 public class Suite implements Combination {
@@ -67,6 +65,28 @@ public class Suite implements Combination {
         throw new IllegalStateException("Aucune suite trouvée dans la main.");
     }
     
+    public static boolean hasTenJackQueenSequence(Deque<Card> cards) {
+        List<Card> cardList = new ArrayList<>(cards);
+
+        for (int i = 0; i <= cardList.size() - 3; i++) {
+            List<Card> subList = new ArrayList<>(cardList.subList(i, i + 3));
+            Collections.sort(subList);
+
+            if (isTenJackQueenSequence(subList)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean isTenJackQueenSequence(List<Card> cards) {
+        return cards.get(0).getRank() == Card.Rank.TEN &&
+               cards.get(1).getRank() == Card.Rank.JACK &&
+               cards.get(2).getRank() == Card.Rank.QUEEN &&
+               cards.get(0).getSuit() == cards.get(1).getSuit() &&
+               cards.get(1).getSuit() == cards.get(2).getSuit();
+    }
 
     public static Deque<Card> getHighestSuit(PriorityQueue<Card> hand) {
         // Utiliser une Map pour suivre la suite de plus grande valeur pour chaque motif
@@ -108,24 +128,5 @@ public class Suite implements Combination {
         return handSet.equals(targetSuite);
     }
     
-    public static boolean isSpecificSuite(Deque<Card> discardedSuit) {
-        // Vérifier si la main contient la suite spécifique
-        Set<Card> targetSuite = new HashSet<>(Arrays.asList(
-                new Card(Suit.HEARTS, Rank.QUEEN),
-                new Card(Suit.HEARTS, Rank.JACK),
-                new Card(Suit.HEARTS, Rank.TEN),
-                new Card(Suit.DIAMONDS, Rank.QUEEN),
-                new Card(Suit.DIAMONDS, Rank.JACK),
-                new Card(Suit.DIAMONDS, Rank.TEN),
-                new Card(Suit.CLUBS, Rank.QUEEN),
-                new Card(Suit.CLUBS, Rank.JACK),
-                new Card(Suit.CLUBS, Rank.TEN),
-                new Card(Suit.SPADES, Rank.QUEEN),
-                new Card(Suit.SPADES, Rank.JACK),
-                new Card(Suit.SPADES, Rank.TEN)
-        ));
-
-        return discardedSuit.containsAll(targetSuite);
-    }
 
 }
