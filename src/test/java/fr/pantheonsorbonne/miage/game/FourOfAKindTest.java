@@ -27,4 +27,6 @@ public class FourOfAKindTest {
         handWithFourOfAKind.add(new Card(Card.Suit.HEARTS, Card.Rank.TWO));
         assertEquals(true, fourOfAKind.isContainedIn(handWithFourOfAKind));
     }
+
+    
 }
