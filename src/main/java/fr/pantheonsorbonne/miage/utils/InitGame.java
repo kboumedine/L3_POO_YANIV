@@ -212,7 +212,8 @@ public class InitGame implements SpecialRules{
 
     @Override
     public boolean shouldNextPlayerFinishTheSuitOrDraw(Player player) {
-        if(Suite.hasTenJackQueenSequence(player.getCardsToDiscard(player.getHand()))){
+        Suite suit = new Suite();
+        if(suit.hasTenJackQueenSequence(player.getCardsToDiscard(player.getHand()))){
             return true;
         }
         return false;

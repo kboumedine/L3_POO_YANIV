@@ -65,7 +65,7 @@ public class Suite implements Combination {
         throw new IllegalStateException("Aucune suite trouvée dans la main.");
     }
     
-    public static boolean hasTenJackQueenSequence(Deque<Card> cards) {
+    public boolean hasTenJackQueenSequence(Deque<Card> cards) {
         List<Card> cardList = new ArrayList<>(cards);
 
         for (int i = 0; i <= cardList.size() - 3; i++) {
