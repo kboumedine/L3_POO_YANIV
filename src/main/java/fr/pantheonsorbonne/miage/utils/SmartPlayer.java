@@ -39,7 +39,7 @@ public class SmartPlayer extends Player{
         Deque<Card> discardedCards = new ArrayDeque<Card>();
         int value = 0;
         if(HandleCombination.hasFourOfAKind(hand)){
-            Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);
+            Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);     //askip null
             for (Card card : fourOfAKind){
                 value += card.getYanivValue();
             }
@@ -100,7 +100,6 @@ public class SmartPlayer extends Player{
         discard(discardPile);
         if((lastCardDiscarded.getYanivValue()<7) || (hand.contains(lastCardDiscarded))){
             drawFromDiscardPile(lastCardDiscarded);
-            System.out.println(getName()+ " draws "+lastCardDiscarded.getSuit() + "-" + lastCardDiscarded.getRank()+ " from DiscardedPile.");
         } else{
             drawFromDeck(deck, discardPile);
         }

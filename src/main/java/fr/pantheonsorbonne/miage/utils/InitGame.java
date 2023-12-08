@@ -10,6 +10,7 @@ import java.util.Set;
 import fr.pantheonsorbonne.miage.utils.specialrules.SpecialRules;
 import fr.pantheonsorbonne.miage.utils.Card.Rank;
 import fr.pantheonsorbonne.miage.utils.Card.Suit;
+import fr.pantheonsorbonne.miage.utils.combinations.HandleCombination;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
 import fr.pantheonsorbonne.miage.utils.combinations.Suite;
 
@@ -18,7 +19,10 @@ public class InitGame implements SpecialRules{
 
     private Deck deck = new Deck();
     private DiscardPile discardPile = new DiscardPile();
-    public List<Player> players = new LinkedList<>();
+    public LinkedList<Player> players = new LinkedList<>();
+
+    private int nbRound = 1;
+    private Player roundWinner;
 
     public void launchGame(){
         deck.initializeDeck();
@@ -31,6 +35,7 @@ public class InitGame implements SpecialRules{
 
         int numPlayers = 5;
 
+        /* 
         Player player1 = new SmartPlayer("special");
         PriorityQueue<Card> hand = player1.getHand();
         hand.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
@@ -38,7 +43,7 @@ public class InitGame implements SpecialRules{
         hand.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
         hand.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
         hand.add(new Card(Card.Suit.CLUBS, Card.Rank.KING));
-        players.add(player1);
+        players.add(player1);  */
 
         for (int i = 1; i <= numPlayers; i++) {
             
@@ -50,8 +55,6 @@ public class InitGame implements SpecialRules{
             }
 
             player.initHand(deck);
-            Card card = player.getHand().peek();
-            System.out.println(card.getSuit()+" " + card.getRank());
             
             players.add(player);
         
@@ -73,11 +76,21 @@ public class InitGame implements SpecialRules{
         boolean skipNextTurn = false;
         boolean finishTheSuitOrDraw = false;
 
+
+
         for(;;){
             for (int i=0; i<players.size(); i++) {
 
+
                 Player player = players.get(i);
                 PriorityQueue<Card> hand = player.getHand();
+
+                if(canDeclareYaniv(player)){
+                    roundWinner = player;
+                    resumeRound();
+                    eliminatePlayers();
+                    return;
+                }
 
 
                 if(skipNextTurn){
@@ -86,7 +99,8 @@ public class InitGame implements SpecialRules{
                 }
 
                 if(finishTheSuitOrDraw){
-                    Suit targetSuit = getSuitOfSpecificSequence(player.getCardsToDiscard(player.getHand()));
+                    System.out.println("cbon");
+                    Suit targetSuit = getSuitOfSpecificSequence(player.getCardsToDiscard(hand));
                     for (Card card : hand) {
                         if (card.getSuit() == targetSuit && card.getRank() == Rank.KING) {
                             hand.remove(card);
@@ -102,8 +116,8 @@ public class InitGame implements SpecialRules{
                     continue;
                 }
 
-                player.displayHand(hand);
-                System.out.println(player.getPoints());
+                //player.displayHand(hand);
+                //System.out.println(player.getPoints());
 
                 if(shouldSkipNextTurn(player)){
                     skipNextTurn = true ;
@@ -116,31 +130,23 @@ public class InitGame implements SpecialRules{
                 if(shouldExchangeWithOtherPlayer(player)){
                     if(i!=players.size()-1){
                     exchangeWithOtherPlayer(player, players.get(i+1));
-                    System.out.println("a echangé");
                     }else{
                         exchangeWithOtherPlayer(player, players.get(1));
-                        System.out.println("a echangé");
                     }
                 }
 
                 player.play(discardPile, deck, hand);
-                player.displayHand(hand);
-                System.out.println(player.getPoints());
-                System.out.println();
+                //player.displayHand(hand);
+                //System.out.println(player.getPoints());
+                //System.out.println();
 
-                if(canDeclareYaniv(player)){
-                    System.out.println(player.getName()+"win");
-                    resumeRound();
-                    eliminatePlayers();
-                    return;
-                }
             }
         }
     }
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 20;
+        return player.getPoints() <= 13;
     }
 
     public void newRound(){
@@ -158,11 +164,16 @@ public class InitGame implements SpecialRules{
     }
 
     public void resumeRound(){
-        
+        System.out.println("Round "+ nbRound);
+        nbRound++;
+        System.out.println();
         for (Player player : players) {
             player.totalPoint += player.getPoints();
-            System.out.println("Player "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.totalPoint);
+            System.out.println("     "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.totalPoint);
         }
+        System.out.println();
+        System.out.println("     "+roundWinner.getName()+" win the round.");
+        System.out.println();
     } 
 
     public void eliminatePlayers(){
@@ -170,9 +181,10 @@ public class InitGame implements SpecialRules{
         for (Player player : players) {
             if(player.totalPoint>=100){
                 eliminatedPlayers.add(player);
-                System.out.println("Player "+player.getName()+" is eliminated.");
+                System.out.println("     "+player.getName()+" is eliminated.");
             }
         }
+        System.out.println();
         players.removeAll(eliminatedPlayers);
     }
 
@@ -212,16 +224,20 @@ public class InitGame implements SpecialRules{
 
     @Override
     public boolean shouldNextPlayerFinishTheSuitOrDraw(Player player) {
-        Suite suit = new Suite();
-        if(suit.hasTenJackQueenSequence(player.getCardsToDiscard(player.getHand()))){
-            return true;
+        if(HandleCombination.hasSuite(player.getHand())){
+            Deque<Card> sequence = Suite.getSuit(player.getHand());
+            //Suit motif = getSuitOfSpecificSequence(sequence);
+            if(sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.TEN)) && sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.JACK)) && sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN))){
+                return true;
+            }
         }
         return false;
     }
 
     private Suit getSuitOfSpecificSequence(Deque<Card> specificSuite) {
-        // Retourner le motif de la première carte de la suite spécifique
-        return specificSuite.iterator().next().getSuit();
+        Card card = specificSuite.peek();
+        Suit motif = card.getSuit();
+        return motif;
     }
 
 }

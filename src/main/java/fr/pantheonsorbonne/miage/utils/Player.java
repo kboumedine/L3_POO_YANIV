@@ -69,7 +69,6 @@ public abstract class Player {
 
     public void drawFromDeck(Deck deck, DiscardPile discardPile){
         if (deck.getDeck().isEmpty()) {
-            System.out.println("Le deck est vide. Impossible de piocher.");
             deck.refillDeck(deck, discardPile);
         }
         Card drawnCard = deck.getDeck().pop();
