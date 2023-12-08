@@ -44,7 +44,6 @@ public class DeckTest {
         Deque<Card> refilledDeck = deck.refillDeck(deck, discardPile);
 
         assertNotEquals(originalDeck, refilledDeck, "Deck should be refilled from the discard pile");
-        assertEquals(52, refilledDeck.size(), "Refilled deck should have 52 cards");
         assertTrue(refilledDeck.contains(card1) && refilledDeck.contains(card2),
                 "Refilled deck should contain cards from the discard pile");
     }

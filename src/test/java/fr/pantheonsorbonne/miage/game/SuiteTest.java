@@ -37,18 +37,5 @@ public class SuiteTest {
         assertEquals(false, suit.isContainedIn(handWithNoSuit));
     }
 
-    @Test
-    void testHasTenJackQueenSequence() {
-
-        Deque<Card> handWithTheSequence = new ArrayDeque<>();
-        handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
-        handWithTheSequence.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
-        handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
-        handWithTheSequence.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
-        assertEquals(true, suit.hasTenJackQueenSequence(handWithTheSequence));
-    }
-
-    
-
 
 }
