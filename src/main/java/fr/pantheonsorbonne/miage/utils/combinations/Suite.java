@@ -4,16 +4,10 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import fr.pantheonsorbonne.miage.utils.Card;
-import fr.pantheonsorbonne.miage.utils.Card.Suit;
 
 public class Suite implements Combination {
 
@@ -65,68 +59,6 @@ public class Suite implements Combination {
         throw new IllegalStateException("Aucune suite trouvée dans la main.");
     }
     
-    public boolean hasTenJackQueenSequence(Deque<Card> cards) {
-        List<Card> cardList = new ArrayList<>(cards);
-
-        for (int i = 0; i <= cardList.size() - 3; i++) {
-            List<Card> subList = new ArrayList<>(cardList.subList(i, i + 3));
-            Collections.sort(subList);
-
-            if (isTenJackQueenSequence(subList)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isTenJackQueenSequence(List<Card> cards) {
-        return cards.get(0).getRank() == Card.Rank.TEN &&
-               cards.get(1).getRank() == Card.Rank.JACK &&
-               cards.get(2).getRank() == Card.Rank.QUEEN &&
-               cards.get(0).getSuit() == cards.get(1).getSuit() &&
-               cards.get(1).getSuit() == cards.get(2).getSuit();
-    }
-
-    public static Deque<Card> getHighestSuit(PriorityQueue<Card> hand) {
-        // Utiliser une Map pour suivre la suite de plus grande valeur pour chaque motif
-        Map<Suit, Deque<Card>> highestSuitMap = new HashMap<>();
-
-        for (Card card : hand) {
-            Suit suit = card.getSuit();
-
-            // Si une suite de plus grande valeur existe déjà pour le motif, comparer les valeurs
-            if (highestSuitMap.containsKey(suit)) {
-                Deque<Card> currentHighestSuite = highestSuitMap.get(suit);
-                if (card.getRank().getValue() > currentHighestSuite.getLast().getRank().getValue()) {
-                    // Remplacer la suite actuelle par la nouvelle suite
-                    highestSuitMap.put(suit, new LinkedList<>(currentHighestSuite));
-                    highestSuitMap.get(suit).add(card);
-                }
-            } else {
-                // Si aucune suite n'a été enregistrée pour le motif, ajouter la carte actuelle comme début de la suite
-                highestSuitMap.put(suit, new LinkedList<>(List.of(card)));
-            }
-        }
-
-        // Trouver la suite de plus grande valeur parmi toutes les suites
-        Deque<Card> highestSuite = new LinkedList<>();
-        for (Deque<Card> suite : highestSuitMap.values()) {
-            if (suite.size() > highestSuite.size()) {
-                highestSuite = suite;
-            }
-        }
-
-        return highestSuite;
-    }
-
-    public static boolean isSuite(Deque<Card> discardedSuit, HashSet<Card> targetSuite) {
-        // Convertir les deux Deques en ensembles pour faciliter la comparaison
-        Set<Card> handSet = new HashSet<>(discardedSuit);
-
-        // Vérifier si les ensembles sont égaux
-        return handSet.equals(targetSuite);
-    }
     
 
 }

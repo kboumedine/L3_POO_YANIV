@@ -1,12 +1,12 @@
 package fr.pantheonsorbonne.miage.utils;
 
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
 
-import fr.pantheonsorbonne.miage.utils.Card.Rank;
 import fr.pantheonsorbonne.miage.utils.Card.Suit;
 import fr.pantheonsorbonne.miage.utils.combinations.HandleCombination;
 import fr.pantheonsorbonne.miage.utils.combinations.Pair;
@@ -21,6 +21,7 @@ public abstract class Engine implements SpecialRules{
 
     private int nbRound = 1;
     private Player roundWinner;
+    private String specialAction = "";
 
     public void launchGame(){
         deck.initializeDeck();
@@ -42,6 +43,8 @@ public abstract class Engine implements SpecialRules{
 
         boolean skipNextTurn = false;
         boolean finishTheSuitOrDraw = false;
+        boolean reverseOrder = false;
+        Player startFromHere = null;
 
 
 
@@ -52,7 +55,17 @@ public abstract class Engine implements SpecialRules{
                 Player player = players.get(i);
                 PriorityQueue<Card> hand = player.getHand();
 
+                if(reverseOrder){
+                    if(player!=startFromHere){
+                        continue;
+                    }else{
+                        reverseOrder = false;
+                        continue;
+                    }
+                }
+
                 if(canDeclareYaniv(player)){
+                    player.getHand().clear();
                     roundWinner = player;
                     resumeRound();
                     eliminatePlayers();
@@ -66,27 +79,15 @@ public abstract class Engine implements SpecialRules{
                 }
 
                 if(finishTheSuitOrDraw){
-                    System.out.println("cbon");
-                    Suit targetSuit = getSuitOfSpecificSequence(player.getCardsToDiscard(hand));
-                    for (Card card : hand) {
-                        if (card.getSuit() == targetSuit && card.getRank() == Rank.KING) {
-                            hand.remove(card);
-                            System.out.println("il avait le king");
-                            break; 
-
-                        }else{
-                            System.out.println("il avait pas le king");
-                            player.drawFromDeck(deck, discardPile);
-                        }
-                    }
-                    finishTheSuitOrDraw = false;
-                    continue;
+                    
                 }
 
                 //player.displayHand(hand);
                 //System.out.println(player.getPoints());
 
                 if(shouldSkipNextTurn(player)){
+
+                    specialAction += player.getName()+" skipped next player turn.\n";
                     skipNextTurn = true ;
                 }
 
@@ -95,11 +96,20 @@ public abstract class Engine implements SpecialRules{
                 }
 
                 if(shouldExchangeWithOtherPlayer(player)){
+                    
+                    specialAction += player.getName()+" exchanged his highest card with another player.\n";
                     if(i!=players.size()-1){
                     exchangeWithOtherPlayer(player, players.get(i+1));
                     }else{
                         exchangeWithOtherPlayer(player, players.get(1));
                     }
+                }
+
+                if (shouldReverseSense(player)) {
+                    specialAction += player.getName()+" changed the direction of the game.\n";
+                    reversePlayerOrder();
+                    startFromHere = player;
+                    reverseOrder = true; // Inverse le sens du jeu
                 }
 
                 player.play(discardPile, deck, hand);
@@ -131,16 +141,20 @@ public abstract class Engine implements SpecialRules{
     }
 
     public void resumeRound(){
-        System.out.println("Round "+ nbRound);
+        System.out.println("ROUND "+ nbRound);
         nbRound++;
+        System.out.println();
+        System.out.println("   Special actions :");
+        System.out.println();
+        System.out.println(specialAction);
+        System.out.println(roundWinner.getName()+" declared yaniv and won the round scoring 0 points !");
         System.out.println();
         for (Player player : players) {
             player.totalPoint += player.getPoints();
             System.out.println("     "+player.getName()+" scored "+player.getPoints()+".     Total : "+player.totalPoint);
         }
         System.out.println();
-        System.out.println("     "+roundWinner.getName()+" win the round.");
-        System.out.println();
+        
     } 
 
     @Override
@@ -151,6 +165,10 @@ public abstract class Engine implements SpecialRules{
         }
         return false;
 
+    }
+
+    private void reversePlayerOrder() {
+        Collections.reverse(players);
     }
 
     @Override
@@ -182,11 +200,11 @@ public abstract class Engine implements SpecialRules{
         if(HandleCombination.hasSuite(player.getHand())){
             Deque<Card> sequence = Suite.getSuit(player.getHand());
             //Suit motif = getSuitOfSpecificSequence(sequence);
-            if(sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.TEN)) && sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.JACK)) && sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN))){
+            if(sequence.contains(new Card(Card.Suit.HEARTS, Card.Rank.TEN))){
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     private Suit getSuitOfSpecificSequence(Deque<Card> specificSuite) {

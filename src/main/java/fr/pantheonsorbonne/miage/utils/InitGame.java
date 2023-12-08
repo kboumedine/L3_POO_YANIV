@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.miage.utils;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 
@@ -19,11 +20,10 @@ public class InitGame extends Engine{
         /* 
         Player player1 = new SmartPlayer("special");
         PriorityQueue<Card> hand = player1.getHand();
-        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
         hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
         hand.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
-        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.JACK));
-        hand.add(new Card(Card.Suit.CLUBS, Card.Rank.KING));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
         players.add(player1);  */
 
         for (int i = 1; i <= numPlayers; i++) {
