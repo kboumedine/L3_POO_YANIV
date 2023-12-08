@@ -15,9 +15,12 @@ public class Game {
             game.playRound();
         }
 
-        gameWinner = game.players.peekFirst(); 
-        System.out.println(gameWinner.getName()+" is the winner of the game !!!");
+        if(!game.players.isEmpty()){
+            gameWinner = game.players.peekFirst(); 
+            System.out.println(gameWinner.getName()+" is the winner of the game !!!");
+        }
     }
+
 }
 
 
