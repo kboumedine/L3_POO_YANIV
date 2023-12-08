@@ -2,8 +2,6 @@ package fr.pantheonsorbonne.miage.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.PriorityQueue;
 
 import org.junit.jupiter.api.Test;

@@ -68,6 +68,5 @@ public class SmartPlayerTest {
         System.setOut(System.out);
     }
 
-    // Add more tests as needed to cover other methods and edge cases.
 }
 
