@@ -16,10 +16,11 @@ import fr.pantheonsorbonne.miage.utils.SmartPlayer;
 
 public class InitGameTest {
 
+    InitGame initGame = new InitGame();
+
     @Test
     void testInitPlayers() {
         // Assuming you have a GameManager instance
-        InitGame initGame = new InitGame();
 
         // Call the initPlayers method
         List<Player> players = initGame.initPlayers();
@@ -43,6 +44,50 @@ public class InitGameTest {
                 assertTrue(player instanceof SmartPlayer, "Player should be an instance of SmartPlayer");
             }
         }
+    }
+
+
+    @Test
+    void testCanDeclareYaniv() {
+        // Assuming you have a GameManager instanc
+
+        // Create a player with different points
+        Player lowPointsPlayer = new DumbPlayer("LowPointsPlayer");
+        Player highPointsPlayer = new SmartPlayer("HighPointsPlayer");
+
+        // Set points for the players
+        lowPointsPlayer.totalPoint = 5;
+        highPointsPlayer.totalPoint = 15;
+
+        // Check if the player with low points can declare Yaniv
+        assertTrue(initGame.canDeclareYaniv(lowPointsPlayer), "Low points player should be able to declare Yaniv");
+
+        // Check if the player with high points cannot declare Yaniv
+        assertFalse(initGame.canDeclareYaniv(highPointsPlayer), "High points player should not be able to declare Yaniv");
+    }
+
+    @Test
+    void testEliminatePlayers() {
+        // Assuming you have a GameManager instance
+
+        // Create players with different total points
+        Player player1 = new DumbPlayer("Player1");
+        Player player2 = new SmartPlayer("Player2");
+
+        // Set total points for the players
+        player1.totalPoint = 80;
+        player2.totalPoint = 110;
+
+        // Add players to the game
+        initGame.players.add(player1);
+        initGame.players.add(player2);
+
+        // Call eliminatePlayers method
+        initGame.eliminatePlayers();
+
+        // Check if the eliminated player is removed
+        assertFalse(initGame.players.contains(player2), "Eliminated player should be removed");
+        assertTrue(initGame.players.contains(player1), "Non-eliminated player should remain in the list");
     }
     
 }

@@ -191,7 +191,7 @@ public class InitGame implements SpecialRules{
         System.out.println("ROUND "+ nbRound);
         nbRound++;
         System.out.println();
-        System.out.println("   Special actions :");
+        System.out.println("   Main actions of the round :");
         System.out.println();
         System.out.println(specialAction);
         System.out.println(roundWinner.getName()+" declared yaniv and won the round scoring 0 points !");
