@@ -1,43 +1,34 @@
 package fr.pantheonsorbonne.miage.utils.net;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.HostFacade;
+import fr.pantheonsorbonne.miage.PlayerFacade;
+import fr.pantheonsorbonne.miage.model.Game;
 import fr.pantheonsorbonne.miage.model.GameCommand;
+import fr.pantheonsorbonne.miage.utils.Card;
 import fr.pantheonsorbonne.miage.utils.Deck;
-import fr.pantheonsorbonne.miage.utils.DumbPlayer;
-import fr.pantheonsorbonne.miage.utils.Engine;
-import fr.pantheonsorbonne.miage.utils.Player;
-import fr.pantheonsorbonne.miage.utils.SmartPlayer;
 
 
-
-public class NetworkHost extends Engine{
+public class NetworkHost extends NetworkGame{
 
     private static final int PLAYER_COUNT = 3;
+    //private static Deck deck = new Deck();
+    private Game yaniv;
     private final HostFacade hostFacade;
-    private static Deck deck;
-    private static LinkedList<Player>players;
-    private final fr.pantheonsorbonne.miage.model.Game yaniv;
+    private static Deck deck = new Deck();
 
 
-    
-
-    public NetworkHost(HostFacade hostFacade, LinkedList<Player>players, Deck deck,
-            fr.pantheonsorbonne.miage.model.Game yaniv) {
-        NetworkHost.players = players;
+    public NetworkHost(HostFacade hostFacade, Game yaniv) {
         this.hostFacade = hostFacade;
-        NetworkHost.deck = deck;
         this.yaniv = yaniv;
     }
 
-
-
-
     public static void main(String[] args) {
+
+        PlayerFacade playerFacade = Facade.getFacade();
         //create the host facade
         HostFacade hostFacade = Facade.getFacade();
         hostFacade.waitReady();
@@ -50,49 +41,54 @@ public class NetworkHost extends Engine{
 
         //wait for enough players to join
         hostFacade.waitForExtraPlayerCount(PLAYER_COUNT);
-
-        Engine host = new NetworkHost(hostFacade, players, deck, yaniv);
-        host.playRound();
-        System.exit(0);
+        NetworkGame host = new NetworkHost(hostFacade, yaniv);
+        host.play();
 
     }
-    
-
-
-
-
 
     @Override
-    protected List<Player> initPlayers() {
-        players = new LinkedList<>();
-        // Ajoutez ici la logique pour créer et ajouter les joueurs à la liste 'players'
-        // Par exemple, si vous avez des objets Player déjà créés, vous pouvez les ajouter à la liste ici.
-
-        // Exemple avec deux joueurs factices pour démarrer
-        players.add(new SmartPlayer("Player1"));
-        players.add(new DumbPlayer("Player2"));
-
-        return players;
+    protected List<String> getInitialPlayers() {
+        return new ArrayList<>(this.yaniv.getPlayers());
     }
 
-
+    @Override
+    protected void giveCardsToPlayer(String playerName, String hand) {
+        hostFacade.sendGameCommandToPlayer(yaniv, playerName, new GameCommand("cardsForYou", hand));
+    }
 
     @Override
-    protected void eliminatePlayers() {
+    public void declareWinner(String winner) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'declareWinner'");
+    }
 
-        Iterator<Player> iterator = players.iterator();
+    @Override
+    protected void playRound() {
 
-        while (iterator.hasNext()) {
-            Player player = iterator.next();
+        List<String> players = getInitialPlayers();
 
-            if (player.totalPoint > 100) {
-                System.out.println("Eliminating player: " + player.getName());
-                iterator.remove(); // Supprime le joueur de la liste
+        for(;;){
+            for (int i=0; i<players.size(); i++) {
+
+                List<Card> cards = new ArrayList<>();
+                for (int j = 0; j < 7; j++) {
+                    Card drawnCard = (deck.getDeck().pop());
+                    cards.add(drawnCard);
+                }
+
+                String hand = "";
+                for (Card card : cards) {
+                    hand += card.getSuit() + "-" + card.getRank() + " ";
+                }
+
+                String player = players.get(i);
+                discardCard(hand,getCardDiscarded(hand));
+                
+
             }
         }
-        
-        hostFacade.sendGameCommandToPlayer(yaniv, "eliminate", new GameCommand("Eliminate a player"));
     }
+
 
 
    
