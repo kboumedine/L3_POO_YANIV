@@ -54,18 +54,8 @@ public class SmartPlayerTest {
         // Set up the player's hand with a higher-value card
         smartPlayer.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.EIGHT));
 
-        // Redirect console output to check the printed result
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
         smartPlayer.play(discardPile, deck, smartPlayer.getHand());
-
-        String printedOutput = outputStream.toString().trim();
-        assertTrue(printedOutput.contains("drawn from discard pile"),
-                "Player should draw from discard pile if last card discarded has a low value");
-
-        // Reset System.out to the console
-        System.setOut(System.out);
+        assertTrue (smartPlayer.getHand().contains(new Card(Card.Suit.CLUBS, Card.Rank.FOUR)));
     }
 
 }

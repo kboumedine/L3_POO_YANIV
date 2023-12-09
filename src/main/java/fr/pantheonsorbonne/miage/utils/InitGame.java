@@ -120,7 +120,7 @@ public class InitGame implements SpecialRules{
                 //player.displayHand(hand);
                 //System.out.println(player.getPoints());
 
-                if(shouldSkipNextTurn(player)){
+                if(shouldSkipNextPlayerTurn(player)){
 
                     specialAction += player.getName()+" skipped next player turn.\n";
                     skipNextTurn = true ;
@@ -219,7 +219,7 @@ public class InitGame implements SpecialRules{
     }
 
     @Override
-    public boolean shouldSkipNextTurn(Player player) {
+    public boolean shouldSkipNextPlayerTurn(Player player) {
         if(Pair.hasPairOf(player.getCardsToDiscard(player.getHand()),8)){
             return true;
         }

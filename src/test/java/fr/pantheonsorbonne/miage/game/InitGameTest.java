@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 import org.junit.jupiter.api.Test;
 
+import fr.pantheonsorbonne.miage.utils.Card;
 import fr.pantheonsorbonne.miage.utils.DumbPlayer;
 import fr.pantheonsorbonne.miage.utils.InitGame;
 import fr.pantheonsorbonne.miage.utils.Player;
@@ -55,9 +57,12 @@ public class InitGameTest {
         Player lowPointsPlayer = new DumbPlayer("LowPointsPlayer");
         Player highPointsPlayer = new SmartPlayer("HighPointsPlayer");
 
-        // Set points for the players
-        lowPointsPlayer.totalPoint = 5;
-        highPointsPlayer.totalPoint = 15;
+        PriorityQueue<Card> hand = lowPointsPlayer.getHand();
+        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
+
+        PriorityQueue<Card> hand2 = highPointsPlayer.getHand();
+        hand2.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
+        hand2.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
 
         // Check if the player with low points can declare Yaniv
         assertTrue(initGame.canDeclareYaniv(lowPointsPlayer), "Low points player should be able to declare Yaniv");
@@ -89,5 +94,38 @@ public class InitGameTest {
         assertFalse(initGame.players.contains(player2), "Eliminated player should be removed");
         assertTrue(initGame.players.contains(player1), "Non-eliminated player should remain in the list");
     }
+
+    @Test
+    void testShouldReverseSense() {
+        Player player = new SmartPlayer("Paul");
+        PriorityQueue<Card> hand = player.getHand();
+        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.SEVEN));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
+
+        assertTrue(initGame.shouldReverseSense(player));
+    }
+
+    @Test
+    void testShouldSkipNextPlayerTurn() {
+        Player player = new SmartPlayer("Paul");
+        PriorityQueue<Card> hand = player.getHand();
+        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.EIGHT));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.EIGHT));
+
+        assertTrue(initGame.shouldSkipNextPlayerTurn(player));
+    }
+
+    @Test
+    void testShouldExchangeWithOtherPlayer() {
+        Player player = new SmartPlayer("Paul");
+        PriorityQueue<Card> hand = player.getHand();
+        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.NINE));
+        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.NINE));
+
+        assertTrue(initGame.shouldExchangeWithOtherPlayer(player));
+    }
+
+
+
     
 }

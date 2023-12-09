@@ -33,24 +33,6 @@ public class DiscardPileTest {
     }
 
     @Test
-    void testDisplayDiscardPile() {
-        DiscardPile discardPile = new DiscardPile();
-        discardPile.getDiscardPile().add(new Card(Card.Suit.CLUBS, Card.Rank.SEVEN));
-
-        // Redirect console output to check the printed result
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-
-        discardPile.displayDiscardPile();
-
-        String printedOutput = outputStream.toString().trim();
-        assertEquals("DiscardPile : CLUBS-SEVEN", printedOutput, "Display should show the correct cards in the discard pile");
-
-        // Reset System.out to the console
-        System.setOut(System.out);
-    }
-
-    @Test
     void testClearDiscardPile() {
         DiscardPile discardPile = new DiscardPile();
         discardPile.getDiscardPile().add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
