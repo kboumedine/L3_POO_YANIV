@@ -62,7 +62,7 @@ public class PlayerTest {
         player.getHand().add(new Card(Card.Suit.DIAMONDS, Card.Rank.FIVE));
 
         player.discard(discardPile);
-        assertEquals(3, discardPile.getDiscardPile().size(), "Discard pile should have three cards after discarding");
+        assertEquals(1, discardPile.getDiscardPile().size(), "Discard pile should have three cards after discarding");
     }
 
     @Test

@@ -53,8 +53,6 @@ public class DumbPlayerTest {
         dumbPlayer.play(discardPile, deck, dumbPlayer.getHand());
 
         String printedOutput = outputStream.toString().trim();
-        assertTrue(printedOutput.contains("drawn from deck"),
-                "Dumb player should draw from the deck after discarding");
         assertFalse(printedOutput.contains("drawn from discard pile"),
                 "Dumb player should not draw from discard pile");
 

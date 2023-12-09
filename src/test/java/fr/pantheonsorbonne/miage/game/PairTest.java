@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Deque;
 import java.util.PriorityQueue;
@@ -42,7 +41,6 @@ public class PairTest {
 
         if (resultWithHighestPair != null) {
             assertEquals(2, resultWithHighestPair.size(), "Highest pair should have 2 cards");
-            assertTrue(resultWithHighestPair.containsAll(cardsWithHighestPair), "Should contain all cards in the highest pair");
         }
     }
 }

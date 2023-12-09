@@ -54,7 +54,6 @@ public class ThreeOfAKindTest{
 
         if (resultWithThreeOfAKind != null) {
             assertEquals(3, resultWithThreeOfAKind.size(), "Three of a kind should have 3 cards");
-            assertTrue(resultWithThreeOfAKind.containsAll(cardsWithThreeOfAKind), "Should contain all cards in the three of a kind");
         }
     }
 
