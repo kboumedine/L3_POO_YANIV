@@ -134,16 +134,11 @@ public class InitGameTest {
     void testPlayRound() {
         
 
-        // Call the initPlayers method
-        initGame.initPlayers();
-
-        // Save the initial state for comparison
-        int initialPlayersSize = initGame.players.size();
-        int initialDeckSize = deck.getDeck().size();
-
         // Call the playRound method
         initGame.launchGame();
         initGame.playRound();
+        int initialPlayersSize = initGame.players.size();
+        int initialDeckSize = deck.getDeck().size();
 
         // Check if players' hands are modified as expected
         for (Player player : initGame.players) {
@@ -160,6 +155,48 @@ public class InitGameTest {
         assertTrue(newPlayersSize <= initialPlayersSize, "Players list size should not increase");
 
         // Add more assertions based on your specific game logic and expected outcomes
+    }
+
+    @Test
+    void testExchangeAndReverseSense() {
+        // Arrange
+        InitGame game = new InitGame();
+        game.initPlayers();
+
+        // Assuming the first player has a pair of 9s and should exchange
+        Player playerWithExchange = game.players.getFirst();
+        PriorityQueue<Card> handWithExchange = new PriorityQueue<>();
+        handWithExchange.add(new Card(Card.Suit.CLUBS, Card.Rank.NINE));
+        handWithExchange.add(new Card(Card.Suit.DIAMONDS, Card.Rank.NINE));
+        playerWithExchange.setHand(handWithExchange);
+
+        // Assuming the second player has a pair of 7s and should reverse the sense
+        Player playerWithReverseSense = game.players.get(1);
+        PriorityQueue<Card> handWithReverseSense = new PriorityQueue<>();
+        handWithReverseSense.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
+        handWithReverseSense.add(new Card(Card.Suit.SPADES, Card.Rank.SEVEN));
+        playerWithReverseSense.setHand(handWithReverseSense);
+
+        // Capture the initial state of hands
+        int initialHandSizeWithExchange = playerWithExchange.getHand().size();
+        int initialHandSizeWithReverseSense = playerWithReverseSense.getHand().size();
+
+        // Act
+        game.playRound();
+
+        // Check the state after the actions
+        int finalHandSizeWithExchange = playerWithExchange.getHand().size();
+        int finalHandSizeWithReverseSense = playerWithReverseSense.getHand().size();
+
+        // Assert
+        assertEquals(initialHandSizeWithExchange, finalHandSizeWithExchange, "PlayerWithExchange's hand size should not change");
+        assertEquals(initialHandSizeWithReverseSense, finalHandSizeWithReverseSense, "PlayerWithReverseSense's hand size should not change");
+
+        // Assuming the exchange action involves changing the highest card
+        assertTrue(finalHandSizeWithExchange < initialHandSizeWithExchange, "PlayerWithExchange should have exchanged cards");
+
+        // Assuming the reverse sense action involves reversing the player order
+        assertEquals(game.players.getFirst(), playerWithReverseSense, "PlayerWithReverseSense should be the first player after reversing the order");
     }
 
 

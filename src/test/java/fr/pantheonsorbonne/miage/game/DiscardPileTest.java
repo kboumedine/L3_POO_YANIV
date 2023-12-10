@@ -3,6 +3,8 @@ package fr.pantheonsorbonne.miage.game;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -72,6 +74,30 @@ public class DiscardPileTest {
         discardPile.clearDiscardPile();
 
         assertTrue(discardPile.getDiscardPile().isEmpty(), "Discard pile should be empty after clearing");
+    }
+
+    @Test
+    void testDisplayDiscardPile() {
+        // Arrange
+        DiscardPile discardPile = new DiscardPile();
+        Deque<Card> cards = new ArrayDeque<>();
+        cards.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
+        cards.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
+        discardPile.setDiscardPile(cards);
+
+        // Redirect System.out to capture printed content
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        // Act
+        discardPile.displayDiscardPile();
+
+        // Assert
+        String expectedOutput = "DiscardPile : HEARTS-TEN DIAMONDS-JACK\n";
+        assertEquals(expectedOutput, outputStream.toString(), "displayDiscardPile should print the correct content");
+
+        // Reset System.out to its original value
+        System.setOut(System.out);
     }
 
 }
