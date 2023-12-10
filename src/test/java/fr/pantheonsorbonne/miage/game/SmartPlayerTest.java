@@ -10,8 +10,6 @@ import fr.pantheonsorbonne.miage.utils.SmartPlayer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Deque;
 import java.util.PriorityQueue;
 
@@ -53,9 +51,10 @@ public class SmartPlayerTest {
 
         // Set up the player's hand with a higher-value card
         smartPlayer.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.EIGHT));
+        smartPlayer.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.FOUR));
 
         smartPlayer.play(discardPile, deck, smartPlayer.getHand());
-        assertTrue (smartPlayer.getHand().contains(new Card(Card.Suit.CLUBS, Card.Rank.FOUR)));
+        assertFalse(smartPlayer.getHand().contains(new Card(Card.Suit.HEARTS, Card.Rank.FOUR)));
     }
 
 }

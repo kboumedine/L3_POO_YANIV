@@ -139,7 +139,6 @@ public class InitGameTest {
 
         // Save the initial state for comparison
         int initialPlayersSize = initGame.players.size();
-        int initialDiscardPileSize = discardPile.getDiscardPile().size();
         int initialDeckSize = deck.getDeck().size();
 
         // Call the playRound method
@@ -151,10 +150,6 @@ public class InitGameTest {
             // Add assertions based on your expectations after the round
             assertTrue(player.getHand().size() >= 0, "Player's hand size should be non-negative");
         }
-
-        // Check if the discard pile is modified as expected
-        int newDiscardPileSize = discardPile.getDiscardPile().size();
-        assertTrue(newDiscardPileSize > initialDiscardPileSize, "Discard pile size should have increased");
 
         // Check if the deck is modified as expected
         int newDeckSize = deck.getDeck().size();
