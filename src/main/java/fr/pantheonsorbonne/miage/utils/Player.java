@@ -8,7 +8,7 @@ public abstract class Player {
 
     protected String name;
 
-    public PriorityQueue<Card> hand = new PriorityQueue<Card>();
+    protected PriorityQueue<Card> hand = new PriorityQueue<Card>();
 
     public int totalPoint = 0;
 
@@ -57,7 +57,6 @@ public abstract class Player {
 
     public abstract Deque<Card> getCardsToDiscard(PriorityQueue<Card> hand);
     public abstract void play(DiscardPile discardPile, Deck deck, PriorityQueue<Card> hand);
-
 
 
     public void discard(DiscardPile discardPile){

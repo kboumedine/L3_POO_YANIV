@@ -11,6 +11,8 @@ import java.util.PriorityQueue;
 import org.junit.jupiter.api.Test;
 
 import fr.pantheonsorbonne.miage.utils.Card;
+import fr.pantheonsorbonne.miage.utils.Deck;
+import fr.pantheonsorbonne.miage.utils.DiscardPile;
 import fr.pantheonsorbonne.miage.utils.DumbPlayer;
 import fr.pantheonsorbonne.miage.utils.InitGame;
 import fr.pantheonsorbonne.miage.utils.Player;
@@ -19,6 +21,8 @@ import fr.pantheonsorbonne.miage.utils.SmartPlayer;
 public class InitGameTest {
 
     InitGame initGame = new InitGame();
+    private Deck deck = new Deck();
+    private DiscardPile discardPile = new DiscardPile();
 
     @Test
     void testInitPlayers() {
@@ -123,6 +127,44 @@ public class InitGameTest {
         hand.add(new Card(Card.Suit.HEARTS, Card.Rank.NINE));
 
         assertTrue(initGame.shouldExchangeWithOtherPlayer(player));
+    }
+
+
+    @Test
+    void testPlayRound() {
+        
+
+        // Call the initPlayers method
+        initGame.initPlayers();
+
+        // Save the initial state for comparison
+        int initialPlayersSize = initGame.players.size();
+        int initialDiscardPileSize = discardPile.getDiscardPile().size();
+        int initialDeckSize = deck.getDeck().size();
+
+        // Call the playRound method
+        initGame.launchGame();
+        initGame.playRound();
+
+        // Check if players' hands are modified as expected
+        for (Player player : initGame.players) {
+            // Add assertions based on your expectations after the round
+            assertTrue(player.getHand().size() >= 0, "Player's hand size should be non-negative");
+        }
+
+        // Check if the discard pile is modified as expected
+        int newDiscardPileSize = discardPile.getDiscardPile().size();
+        assertTrue(newDiscardPileSize > initialDiscardPileSize, "Discard pile size should have increased");
+
+        // Check if the deck is modified as expected
+        int newDeckSize = deck.getDeck().size();
+        assertTrue(newDeckSize < initialDeckSize, "Deck size should have decreased");
+
+        // Check if other game state changes are as expected
+        int newPlayersSize = initGame.players.size();
+        assertTrue(newPlayersSize <= initialPlayersSize, "Players list size should not increase");
+
+        // Add more assertions based on your specific game logic and expected outcomes
     }
 
 

@@ -24,7 +24,7 @@ public class InitGame implements SpecialRules{
     public LinkedList<Player> players = new LinkedList<>();
 
     private int nbRound = 1;
-    private Player roundWinner;
+    private Player potentialRoundWinner;
     private String specialAction = "";
 
     public void launchGame(){
@@ -80,7 +80,7 @@ public class InitGame implements SpecialRules{
         boolean finishTheSuitOrDraw = false;
         boolean reverseOrder = false;
         Player startFromHere = null;
-
+        Suit motif = null;
 
 
         for(;;){
@@ -100,8 +100,7 @@ public class InitGame implements SpecialRules{
                 }
 
                 if(canDeclareYaniv(player)){
-                    player.getHand().clear();
-                    roundWinner = player;
+                    potentialRoundWinner = player;
                     resumeRound();
                     eliminatePlayers();
                     return;
@@ -114,7 +113,16 @@ public class InitGame implements SpecialRules{
                 }
 
                 if(finishTheSuitOrDraw){
-                    
+                    Card card = new Card(motif, Card.Rank.KING);
+                    if(player.getHand().contains(card)){
+                        player.getHand().remove(card);
+                        discardPile.getDiscardPile().add(card);
+                        specialAction += player.getName() + " finished the TEN-QUEEN-JACK sequence.";
+                        continue;
+                    }else{
+                        player.drawFromDeck(deck, discardPile);
+                        specialAction += player.getName() + " couldn't finish the TEN-QUEEN-JACK sequence, he drew from deck.";
+                    }
                 }
 
                 //player.displayHand(hand);
@@ -127,6 +135,7 @@ public class InitGame implements SpecialRules{
                 }
 
                 if(shouldNextPlayerFinishTheSuitOrDraw(player)){
+                    motif = getSuitOfSpecificSequence(player.getCardsToDiscard(player.getHand()));
                     finishTheSuitOrDraw = true;
                 }
 
@@ -188,13 +197,34 @@ public class InitGame implements SpecialRules{
     }
 
     public void resumeRound(){
+
+        int points = potentialRoundWinner.getPoints();
+        boolean validateYaniv = true;
+        String yassaf = null;
+        String announceWinner = null;
+        for(Player player : players){
+            if(!player.equals(potentialRoundWinner) && player.getPoints()<points){
+                yassaf = potentialRoundWinner.getName()+" declared yaniv but "+player.getName()+" had less points. He got a 30-points penalty !";
+                potentialRoundWinner.totalPoint+=30;
+                validateYaniv = false;
+                break;
+            }
+            else{
+                announceWinner = potentialRoundWinner.getName()+" declared yaniv and won the round scoring 0 point !";
+                potentialRoundWinner.getHand().clear();
+            }
+        }
         System.out.println("ROUND "+ nbRound);
         nbRound++;
         System.out.println();
         System.out.println("   Main actions of the round :");
         System.out.println();
         System.out.println(specialAction);
-        System.out.println(roundWinner.getName()+" declared yaniv and won the round scoring 0 points !");
+        if(validateYaniv){
+            System.out.println(announceWinner);
+        }else{
+            System.out.println(yassaf);
+        }
         System.out.println();
         for (Player player : players) {
             player.totalPoint += player.getPoints();
@@ -247,11 +277,11 @@ public class InitGame implements SpecialRules{
         if(HandleCombination.hasSuite(player.getHand())){
             Deque<Card> sequence = Suite.getSuit(player.getHand());
             Suit motif = getSuitOfSpecificSequence(sequence);
-            if(sequence.contains(new Card(motif, Card.Rank.TEN))){
+            if(sequence.contains(new Card(motif, Card.Rank.TEN)) && sequence.contains(new Card(motif, Card.Rank.JACK)) && sequence.contains(new Card(motif, Card.Rank.QUEEN))){
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     private Suit getSuitOfSpecificSequence(Deque<Card> specificSuite) {

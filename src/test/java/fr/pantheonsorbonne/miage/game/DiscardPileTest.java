@@ -3,8 +3,6 @@ package fr.pantheonsorbonne.miage.game;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Deque;
 import java.util.LinkedList;
 

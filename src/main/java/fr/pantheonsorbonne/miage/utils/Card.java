@@ -59,8 +59,6 @@ public class Card implements Comparable<Card>{
         return 0;         
         
     }
-
-
     
     
 }
