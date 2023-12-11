@@ -93,7 +93,7 @@ public class DiscardPileTest {
         discardPile.displayDiscardPile();
 
         // Assert
-        String expectedOutput = "DiscardPile : HEARTS-TEN DIAMONDS-JACK\n";
+        String expectedOutput = "DiscardPile : HEARTS-TEN DIAMONDS-JACK";
         assertEquals(expectedOutput, outputStream.toString(), "displayDiscardPile should print the correct content");
 
         // Reset System.out to its original value
