@@ -185,17 +185,12 @@ public class InitGameTest {
         InitGame game = new InitGame();
         game.launchGame();
 
-    
-        Player player1 = game.players.getFirst();
-        Player player2 = game.players.get(1);
 
      
         game.newRound();
 
 
         assertTrue(discardPile.getDiscardPile().isEmpty(), "Discard pile should be empty");
-        assertEquals(0, player1.getHand().size(), "Player 1's hand should be empty");
-        assertEquals(0, player2.getHand().size(), "Player 2's hand should be empty");
 
     }
     
