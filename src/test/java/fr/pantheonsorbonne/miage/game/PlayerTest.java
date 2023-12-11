@@ -21,6 +21,21 @@ public class PlayerTest {
     }
 
     @Test
+    void testSetName() {
+        // Créer un joueur avec un nom initial
+        Player player = new SmartPlayer("SmartPlayer1");
+        
+        // Vérifier que le nom initial est correct
+        assertEquals("SmartPlayer1", player.getName(), "Initial name should be SmartPlayer1");
+
+        // Changer le nom du joueur
+        player.setName("NewName");
+
+        // Vérifier que le nom a été modifié correctement
+        assertEquals("NewName", player.getName(), "Name should be updated to NewName");
+    }
+
+    @Test
     void testInitHand() {
         Player player = new SmartPlayer("Bob");
         Deck deck = new Deck();
