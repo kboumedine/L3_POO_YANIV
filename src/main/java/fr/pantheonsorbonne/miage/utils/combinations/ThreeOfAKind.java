@@ -19,7 +19,6 @@ public class ThreeOfAKind implements Combination {
             rankCount.put(card.getRank(), rankCount.getOrDefault(card.getRank(), 0) + 1);
         }
 
-        // Vérification du brelan
         for (Map.Entry<Rank, Integer> entry : rankCount.entrySet()) {
             if (entry.getValue() >= 3) {
                 return true;
@@ -32,17 +31,15 @@ public class ThreeOfAKind implements Combination {
     public static Deque<Card> getThreeOfAKind(PriorityQueue<Card> cards) {
         Map<Card.Rank, Deque<Card>> rankMap = new HashMap<>();
 
-        // Regrouper les cartes par valeur
         for (Card card : cards) {
             rankMap.computeIfAbsent(card.getRank(), k -> new LinkedList<>()).add(card);
         }
 
-        // Rechercher le "Three of a Kind"
         Deque<Card> threeOfAKind = null;
         for (Deque<Card> cardDeque : rankMap.values()) {
             if (cardDeque.size() == 3) {
                 threeOfAKind = cardDeque;
-                break; // On arrête dès qu'on trouve le premier "Three of a Kind"
+                break; 
             }
         }
 

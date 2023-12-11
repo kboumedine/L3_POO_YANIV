@@ -24,10 +24,17 @@ public class NetworkPlayer {
             GameCommand command = playerFacade.receiveGameCommand(yaniv);
                 switch (command.name()) {
                     case "cardsForYou":
-                        String myCard = command.body();
-                        System.out.println("I have " + myCard);
+                        String myCards = command.body();
+                        System.out.println("I have " + myCards);
                         break;
-
+                    case "cardToDiscard":
+                        String card = command.body();
+                        System.out.println("I choose to discard "+ card);
+                        break;
+                    case "getPoints":
+                        String points = command.body();
+                        System.out.println("I have "+points+" points.");
+                        break;
                 }
         }
     }

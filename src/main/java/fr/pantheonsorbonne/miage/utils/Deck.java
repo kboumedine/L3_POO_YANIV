@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Deck {
 
-    private Deque<Card> deck;   //voir si c pas mieux de l'implementer a partir de ArrayDeque
+    private Deque<Card> deck;   
 
     public Deck() {
         this.deck = new LinkedList<Card>();

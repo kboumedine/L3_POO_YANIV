@@ -22,16 +22,14 @@ public class PlayerTest {
 
     @Test
     void testSetName() {
-        // Créer un joueur avec un nom initial
+      
         Player player = new SmartPlayer("SmartPlayer1");
         
-        // Vérifier que le nom initial est correct
+      
         assertEquals("SmartPlayer1", player.getName(), "Initial name should be SmartPlayer1");
 
-        // Changer le nom du joueur
         player.setName("NewName");
 
-        // Vérifier que le nom a été modifié correctement
         assertEquals("NewName", player.getName(), "Name should be updated to NewName");
     }
 
@@ -71,7 +69,6 @@ public class PlayerTest {
         Player player = new SmartPlayer("Eva");
         DiscardPile discardPile = new DiscardPile();
 
-        // Initialize player's hand with some cards
         player.getHand().add(new Card(Card.Suit.SPADES, Card.Rank.TEN));
         player.getHand().add(new Card(Card.Suit.CLUBS, Card.Rank.SEVEN));
         player.getHand().add(new Card(Card.Suit.DIAMONDS, Card.Rank.FIVE));
@@ -84,13 +81,12 @@ public class PlayerTest {
     void testGetPoints() {
         Player player = new SmartPlayer("Frank");
 
-        // Initialize player's hand with some cards
         player.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.KING));
         player.getHand().add(new Card(Card.Suit.DIAMONDS, Card.Rank.SEVEN));
 
         assertEquals(20, player.getPoints(), "Player's points should be the sum of card values in the hand");
     }
 
-    // Add more tests as needed to cover other methods and edge cases.
+
 }
 

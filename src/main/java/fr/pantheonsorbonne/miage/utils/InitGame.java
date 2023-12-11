@@ -82,7 +82,7 @@ public class InitGame implements SpecialRules{
                 PriorityQueue<Card> hand = player.getHand();
 
                 if(reverseOrder){
-                    if(player!=startFromHere){
+                    if(player!=startFromHere){      /*on doit actualiser les indices car le joueur qui a inversé l'odre, lorsqu'on reverse la liste, n'est plus a la meme position */ 
                         continue;
                     }else{
                         reverseOrder = false;
@@ -116,8 +116,6 @@ public class InitGame implements SpecialRules{
                     }
                 }
 
-                //player.displayHand(hand);
-                //System.out.println(player.getPoints());
 
                 if(shouldSkipNextPlayerTurn(player)){
 
@@ -144,13 +142,10 @@ public class InitGame implements SpecialRules{
                     specialAction += player.getName()+" changed the direction of the game.\n";
                     reversePlayerOrder();
                     startFromHere = player;
-                    reverseOrder = true; // Inverse le sens du jeu
+                    reverseOrder = true; 
                 }
 
                 player.play(discardPile, deck, hand);
-                //player.displayHand(hand);
-                //System.out.println(player.getPoints());
-                //System.out.println();
 
             }
         }
@@ -277,7 +272,7 @@ public class InitGame implements SpecialRules{
 
     private Suit getSuitOfSpecificSequence(Deque<Card> specificSuite) {
         Card card = specificSuite.peek();
-        Suit motif = card.getSuit();
+        Suit motif = card.getSuit();        // si c'est une suite, les cartes ont forcement le meme motif donc on le recupere a partir de n'importe quelle carte de la suite
         return motif;
     }
 

@@ -46,10 +46,9 @@ public class SmartPlayerTest {
         DiscardPile discardPile = new DiscardPile();
         Deck deck = new Deck();
 
-        // Set up a discard pile with a card
         discardPile.getDiscardPile().add(new Card(Card.Suit.CLUBS, Card.Rank.FOUR));
 
-        // Set up the player's hand with a higher-value card
+    
         smartPlayer.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.EIGHT));
         smartPlayer.getHand().add(new Card(Card.Suit.HEARTS, Card.Rank.FOUR));
 

@@ -39,7 +39,7 @@ public class SmartPlayer extends Player{
         Deque<Card> discardedCards = new ArrayDeque<Card>();
         int value = 0;
         if(HandleCombination.hasFourOfAKind(hand)){
-            Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);     //askip null
+            Deque<Card> fourOfAKind = FourOfAKind.getFourOfAKind(hand);     
             for (Card card : fourOfAKind){
                 value += card.getYanivValue();
             }
@@ -53,7 +53,7 @@ public class SmartPlayer extends Player{
             for (Card card : threeOfAKind){
                 value += card.getYanivValue();
             }
-            if(value>=hand.peek().getYanivValue()){               // faut gerer qd ils ont 2 combi a la fois
+            if(value>=hand.peek().getYanivValue()){              
                 discardedCards.addAll(threeOfAKind);
             }else{
             discardedCards.add(hand.peek());

@@ -9,12 +9,14 @@ import java.util.PriorityQueue;
 
 import fr.pantheonsorbonne.miage.utils.Card;
 
+// une suite est valide uniquement si les cartes ont le meme motif 
+
 public class Suite implements Combination {
 
     @Override
     public boolean isContainedIn(PriorityQueue<Card> hand) {
         if (hand.size() < 3) {
-            // Une suite doit avoir au moins 3 cartes
+        
             return false;
         }
 
@@ -43,7 +45,7 @@ public class Suite implements Combination {
 
     public static Deque<Card> getSuit(PriorityQueue<Card> hand) {
         if (hand.size() < 3) {
-            // Une suite doit avoir au moins 3 cartes
+            
             throw new IllegalArgumentException("La main doit contenir au moins 3 cartes.");
         }
 

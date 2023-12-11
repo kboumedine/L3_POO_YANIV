@@ -33,13 +33,13 @@ public class DeckTest {
         Deck deck = new Deck();
         DiscardPile discardPile = new DiscardPile();
 
-        // Add some cards to the discard pile
+    
         Card card1 = new Card(Card.Suit.HEARTS, Card.Rank.ACE);
         Card card2 = new Card(Card.Suit.DIAMONDS, Card.Rank.TWO);
         discardPile.getDiscardPile().add(card1);
         discardPile.getDiscardPile().add(card2);
 
-        // Test refilling the deck from the discard pile
+      
         Deque<Card> originalDeck = new LinkedList<>(deck.getDeck());
         Deque<Card> refilledDeck = deck.refillDeck(deck, discardPile);
 
@@ -50,7 +50,7 @@ public class DeckTest {
 
     @Test
     void testDisplayDeck() {
-        // This test just checks if the displayDeck method runs without errors
+      
         Deck deck = new Deck();
         deck.displayDeck();
     }

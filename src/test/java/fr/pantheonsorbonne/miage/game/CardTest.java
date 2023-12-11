@@ -37,13 +37,10 @@ public class CardTest {
         Card card2 = new Card(Card.Suit.DIAMONDS, Card.Rank.TWO);
         Card card3 = new Card(Card.Suit.CLUBS, Card.Rank.ACE);
 
-        // Test when card1 has a higher value than card2
         assertEquals(1, card1.compareTo(card2));
 
-        // Test when card2 has a lower value than card1
         assertEquals(-1, card2.compareTo(card1));
 
-        // Test when card1 and card3 have the same value
         assertEquals(0, card1.compareTo(card3));
     }  
 

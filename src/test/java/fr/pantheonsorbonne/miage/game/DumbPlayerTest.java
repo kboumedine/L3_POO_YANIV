@@ -43,10 +43,9 @@ public class DumbPlayerTest {
         DiscardPile discardPile = new DiscardPile();
         Deck deck = new Deck();
 
-        // Set up the player's hand with a card
+        
         dumbPlayer.getHand().add(new Card(Card.Suit.CLUBS, Card.Rank.SEVEN));
 
-        // Redirect console output to check the printed result
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -56,10 +55,9 @@ public class DumbPlayerTest {
         assertFalse(printedOutput.contains("drawn from discard pile"),
                 "Dumb player should not draw from discard pile");
 
-        // Reset System.out to the console
         System.setOut(System.out);
     }
 
-    // Add more tests as needed to cover other methods and edge cases.
+  
 }
 

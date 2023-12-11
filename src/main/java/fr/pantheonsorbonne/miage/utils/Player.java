@@ -37,8 +37,7 @@ public abstract class Player {
 
 
     public void initHand(Deck deck){
-        int numCardsToDraw = 7; // ou la taille de la main souhaitée
-
+        int numCardsToDraw = 7; 
         for (int i = 0; i < numCardsToDraw && !(deck.getDeck().isEmpty()); i++) {
             Card drawnCard = (deck.getDeck().pop());
             hand.add(drawnCard);

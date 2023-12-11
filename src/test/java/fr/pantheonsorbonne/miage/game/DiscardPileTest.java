@@ -16,32 +16,31 @@ public class DiscardPileTest {
 
     @Test
     void testGetDiscardPile() {
-        // Arrange
+       
         DiscardPile discardPile = new DiscardPile();
         Deque<Card> expectedDiscardPile = new ArrayDeque<>();
         expectedDiscardPile.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
         expectedDiscardPile.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
 
-        // Act
+     
         discardPile.setDiscardPile(expectedDiscardPile);
         Deque<Card> actualDiscardPile = discardPile.getDiscardPile();
 
-        // Assert
+     
         assertEquals(expectedDiscardPile, actualDiscardPile, "getDiscardPile should return the set discard pile");
     }
 
     @Test
     void testSetDiscardPile() {
-        // Arrange
+       
         DiscardPile discardPile = new DiscardPile();
         Deque<Card> newDiscardPile = new ArrayDeque<>();
         newDiscardPile.add(new Card(Card.Suit.CLUBS, Card.Rank.QUEEN));
         newDiscardPile.add(new Card(Card.Suit.SPADES, Card.Rank.KING));
 
-        // Act
         discardPile.setDiscardPile(newDiscardPile);
 
-        // Assert
+        
         assertEquals(newDiscardPile, discardPile.getDiscardPile(), "setDiscardPile should update the discard pile");
     }
 
@@ -78,25 +77,24 @@ public class DiscardPileTest {
 
     @Test
     void testDisplayDiscardPile() {
-        // Arrange
+     
         DiscardPile discardPile = new DiscardPile();
         Deque<Card> cards = new ArrayDeque<>();
         cards.add(new Card(Card.Suit.HEARTS, Card.Rank.TEN));
         cards.add(new Card(Card.Suit.DIAMONDS, Card.Rank.JACK));
         discardPile.setDiscardPile(cards);
 
-        // Redirect System.out to capture printed content
+    
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        // Act
         discardPile.displayDiscardPile();
 
-        // Assert
+       
         String expectedOutput = "DiscardPile : HEARTS-TEN DIAMONDS-JACK";
         assertEquals(expectedOutput, outputStream.toString(), "displayDiscardPile should print the correct content");
 
-        // Reset System.out to its original value
+      
         System.setOut(System.out);
     }
 
