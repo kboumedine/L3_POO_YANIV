@@ -153,7 +153,7 @@ public class InitGame implements SpecialRules{
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 12;
+        return player.getPoints() <= 14;
     }
 
     public void eliminatePlayers(){
