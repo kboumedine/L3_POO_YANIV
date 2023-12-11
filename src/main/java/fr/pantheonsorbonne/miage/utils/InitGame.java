@@ -38,15 +38,6 @@ public class InitGame implements SpecialRules{
 
         int numPlayers = 5;
 
-        /* 
-        Player player1 = new SmartPlayer("special");
-        PriorityQueue<Card> hand = player1.getHand();
-        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
-        hand.add(new Card(Card.Suit.DIAMONDS, Card.Rank.TWO));
-        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.QUEEN));
-        hand.add(new Card(Card.Suit.HEARTS, Card.Rank.SEVEN));
-        players.add(player1);  */
-
         for (int i = 1; i <= numPlayers; i++) {
             
             Player player;
@@ -167,7 +158,7 @@ public class InitGame implements SpecialRules{
 
 
     public boolean canDeclareYaniv(Player player){
-        return player.getPoints() <= 13;
+        return player.getPoints() <= 12;
     }
 
     public void eliminatePlayers(){
