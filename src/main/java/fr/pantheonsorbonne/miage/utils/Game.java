@@ -6,6 +6,10 @@ public class Game {
 
     private Player gameWinner;
 
+    public Player getGameWinner() {
+        return gameWinner;
+    }
+
     public void playGame(){
         InitGame game = new InitGame();
         game.launchGame();
