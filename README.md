@@ -1,7 +1,5 @@
 
-
-DEMO : https://drive.google.com/file/d/1qy4kCukmYsRzKc97Npbec_N4hgDFUpOf/view?usp=sharing
-
+demo dans le package "doc"
 
 # Règles
 
